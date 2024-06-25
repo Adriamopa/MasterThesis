@@ -1,0 +1,20 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+wd <- getwd()
+file <- paste0(wd,"/ImpGT_EUR")
+ImpGT <- read.csv(file = file, sep = "\t",header = F)
+colnames(ImpGT) <- c("Sample", "SS", "SI", "II")
+ImpGT$Filt <- sapply(ImpGT$Sample, function(x){
+  max(ImpGT[ImpGT$Sample == x, c("SS", "SI", "II")])
+}
+print(ImpGT)
+```
+

@@ -1,0 +1,57 @@
+
+[IMPUTE5] Imputation of phased SNP array data from large reference panels
+  * Authors             : Simone Rubinacci & Jonathan Marchini, 2023
+  * Contact             : rubinacci.simone@gmail.com
+  * Version       	: IMPUTE5 v1.2.0 / commit = 6e3d41e / release = 2023-08-21
+  * Citation	        : PLOS Genetics 16(11): e1009049 (2020). DOI: https://doi.org/10.1371/journal.pgen.1009049
+  * Licence	        : IMPUTE5 is freely available only for academic use. To see rules for non-academic use, please read the LICENCE.
+  * Run date            : 29/04/2024 - 17:48:22
+
+Files:
+  * Input phased array  : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_1/Inversions/HsInv0228/Target.vcf.gz]
+  * Reference panel     : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_1/Inversions/HsInv0228/Ref.vcf.gz]
+  * Output file         : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_1/Inversions/HsInv0228/Out.vcf.gz]
+  * Output format       : [VCF format | ZLIB compression | no CSI index]
+  * Output LOG          : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_1/Inversions/HsInv0228/Log]
+
+IMPUTE5 parameters:
+  * Imputation model    : [Reference panel imputation]
+  * Input region        : [1:149617486-150076379]
+  * Output region       : [1:149846905-149846907]
+  * Sparse MAF          : [0.03125]
+  * Recombination rates : [Given by genetic map]
+  * Ploidy              : [Only diploid samples in region]
+
+Model parameters:
+  * Ne [eff. pop. size] : [20000]
+  * Imputation err. rate: [0.0001]
+
+Selection parameters:
+  * K pbwt              : [1500]
+  * PBWT max depth      : [10]
+  * PBWT min depth      : [2]
+  * PBWT modulo (cM)    : [0.005]
+
+Test statistics parameters:
+  * Surfbat test        : [NO]
+  * Surfbat MAF         : [0.01]
+  * Surfbat INFO        : [0.3]
+
+Output
+  * FORMAT/GT           : [YES]
+  * FORMAT/DS           : [YES]
+  * FORMAT/GP           : [YES]
+  * FORMAT/AP           : [NO]
+  * FORMAT/SAP          : [NO]
+  * Buffer              : [NO]
+  * CSI index           : [NO]
+
+Other parameters
+  * Seed                : [42]
+  * #Threads            : [10]
+
+Initialisation:
+  * XCF scanning	[done]		[Li=2181 | Lg= 2180 | Lt=0]	(0.02s)
+  * XCF parsing		[done]		[Li=2181 | Lg= 2180 | Lt=0]	(0.02s)
+  * Common transpose	[ref]		[var2hap]			(0.00s)
+  * Rare transpose	[ref]		[var2hap]	[nrar=0]	(0.00s)

@@ -1,0 +1,24 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --bfile Exp
+  --bmerge Imp
+  --merge-mode 6
+  --out conc
+
+Hostname: aftimo
+Working directory: /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_1/R2/HsInv0113/0.90
+Start time: Mon Jun 17 12:49:01 2024
+
+Random number seed: 1718621341
+31827 MB RAM detected; reserving 15913 MB for main workspace.
+36 people loaded from Exp.fam.
+36 people to be merged from Imp.fam.
+Of these, 0 are new, while 36 are present in the base dataset.
+1 marker loaded from Exp.bim.
+1 marker to be merged from Imp.bim.
+Of these, 0 are new, while 1 is present in the base dataset.
+Performing 1-pass diff (mode 6), writing results to conc.diff .
+36 overlapping calls, 36 nonmissing in both filesets.
+35 concordant, for a concordance rate of 0.972222.
+
+End time: Mon Jun 17 12:49:01 2024

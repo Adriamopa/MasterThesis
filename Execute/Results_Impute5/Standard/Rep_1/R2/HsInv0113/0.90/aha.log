@@ -1,0 +1,13 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --merge-mode 6
+  --out aha
+  --vcf EUR.vcf
+
+Hostname: aftimo
+Working directory: /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_1/R2/HsInv0113/0.90
+Start time: Sun Jun 16 12:23:59 2024
+
+Error: --merge-mode must be used with --{b}merge/--merge-list.
+
+End time: Sun Jun 16 12:23:59 2024

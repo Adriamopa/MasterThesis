@@ -1,0 +1,30 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --bfile /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_1/R2/HsInv0124/0.80/EAS_Exp
+  --bmerge /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_1/R2/HsInv0124/0.80/EAS_Imp
+  --merge-mode 6
+  --out /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_1/R2/HsInv0124/0.80/EAS
+
+Hostname: aftimo
+Working directory: /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute
+Start time: Mon Jun 17 15:42:04 2024
+
+Random number seed: 1718631724
+31827 MB RAM detected; reserving 15913 MB for main workspace.
+85 people loaded from
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_1/R2/HsInv0124/0.80/EAS_Exp.fam.
+85 people to be merged from
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_1/R2/HsInv0124/0.80/EAS_Imp.fam.
+Of these, 0 are new, while 85 are present in the base dataset.
+1 marker loaded from
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_1/R2/HsInv0124/0.80/EAS_Exp.bim.
+1 marker to be merged from
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_1/R2/HsInv0124/0.80/EAS_Imp.bim.
+Of these, 0 are new, while 1 is present in the base dataset.
+Performing 1-pass diff (mode 6), writing results to
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_1/R2/HsInv0124/0.80/EAS.diff
+.
+85 overlapping calls, 85 nonmissing in both filesets.
+85 concordant, for a concordance rate of 1.
+
+End time: Mon Jun 17 15:42:04 2024

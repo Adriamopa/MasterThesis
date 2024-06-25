@@ -1,0 +1,17 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --bfile /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_3/R2/HsInv0370/0.00/EUR_Exp
+  --bmerge /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_3/R2/HsInv0370/0.00/EUR_Imp
+  --merge-mode 6
+  --out /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_3/R2/HsInv0370/0.00/EUR
+
+Hostname: aftimo
+Working directory: /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute
+Start time: Mon Jun 17 15:02:47 2024
+
+Random number seed: 1718629367
+31827 MB RAM detected; reserving 15913 MB for main workspace.
+Error: Failed to open
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_3/R2/HsInv0370/0.00/EUR_Exp.fam.
+
+End time: Mon Jun 17 15:02:47 2024

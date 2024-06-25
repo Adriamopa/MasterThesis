@@ -1,0 +1,19 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --ld-window 999999
+  --ld-window-kb 1000000
+  --ld-window-r2 0
+  --out /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_3/R2/HsInv0347/0.30/AFR_R2
+  --r2
+  --vcf /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_3/R2/HsInv0347/0.30/AFR.vcf
+
+Hostname: aftimo
+Working directory: /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute
+Start time: Sat May 25 11:35:12 2024
+
+Random number seed: 1716629712
+31827 MB RAM detected; reserving 15913 MB for main workspace.
+Error: Failed to open
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_3/R2/HsInv0347/0.30/AFR.vcf.
+
+End time: Sat May 25 11:35:12 2024

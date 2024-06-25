@@ -1,0 +1,39 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --make-bed
+  --out /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Standard/Rep_4/R2/HsInv0397/0.90/EUR_Imp
+  --vcf /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Standard/Rep_4/R2/HsInv0397/0.90/EUR_Imp.vcf
+
+Hostname: aftimo
+Working directory: /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute
+Start time: Mon Jun 17 15:39:33 2024
+
+Random number seed: 1718631573
+31827 MB RAM detected; reserving 15913 MB for main workspace.
+--vcf:
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Standard/Rep_4/R2/HsInv0397/0.90/EUR_Imp-temporary.bed
++
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Standard/Rep_4/R2/HsInv0397/0.90/EUR_Imp-temporary.bim
++
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Standard/Rep_4/R2/HsInv0397/0.90/EUR_Imp-temporary.fam
+written.
+1 variant loaded from .bim file.
+168 people (0 males, 0 females, 168 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Standard/Rep_4/R2/HsInv0397/0.90/EUR_Imp.nosex
+.
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 168 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is exactly 1.
+1 variant and 168 people pass filters and QC.
+Note: No phenotypes present.
+--make-bed to
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Standard/Rep_4/R2/HsInv0397/0.90/EUR_Imp.bed
++
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Standard/Rep_4/R2/HsInv0397/0.90/EUR_Imp.bim
++
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Standard/Rep_4/R2/HsInv0397/0.90/EUR_Imp.fam
+... done.
+
+End time: Mon Jun 17 15:39:33 2024

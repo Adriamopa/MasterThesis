@@ -1,0 +1,15 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --make-bed
+  --out /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_4/R2/HsInv0626/0.90/EAS_Imp
+  --vcf /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_4/R2/HsInv0626/0.90/EAS_Imp.vcf
+
+Hostname: aftimo
+Working directory: /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute
+Start time: Mon Jun 17 15:03:50 2024
+
+Random number seed: 1718629430
+31827 MB RAM detected; reserving 15913 MB for main workspace.
+Error: No samples in .vcf file.
+
+End time: Mon Jun 17 15:03:50 2024

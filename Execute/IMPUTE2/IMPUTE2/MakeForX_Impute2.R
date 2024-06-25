@@ -1,0 +1,42 @@
+#!/usr/bin/Rscript
+
+input <- commandArgs(T)
+
+## For testing
+# input <- c("HsInv0072", "EUR", "NA06985")
+
+inv <- input[1]
+pop <- input[2]
+samp <- input[3]
+condition <- input[4]
+rep <- input[5]
+
+Samples <- read.table(paste0("Results_Impute2/",condition,"/", rep, "/Inversions/", inv, "/", pop, "/", samp, "/SamplesLine"), comment.char = "@")
+Samples <- as.character(Samples[,10:dim(Samples)[2]])
+
+PopFile <- read.table("../VCFs/30X/Panel30x", header = T)
+rownames(PopFile) <- PopFile$sample
+PopFile <- PopFile[Samples,]
+
+All <- as.data.frame(Samples)
+colnames(All) <- "ID_1"
+All$ID_2 <- All$ID_1
+All$missing <- rep("0.0", dim(All)[1])
+All$sex <- sapply(PopFile$gender, function(x){
+  if(x == "male"){
+    1
+  } else {
+    2
+  }
+})
+
+Base <- as.data.frame(t(c("0", "0", "0", "D")))
+colnames(Base) <- c("ID_1", "ID_2", "missing", "sex")
+
+Ref <- rbind(Base, All)
+Ref <- Ref[Ref$ID_1 != samp,]
+
+Target <- rbind(Base, All[All$ID_1 == samp,])
+
+write.table(Ref, paste0("Results_Impute2/",condition,"/", rep, "/Inversions/", inv, "/", pop, "/", samp, "/Ref.sample"), quote = F, sep = "\t", row.names = F, col.names = T)
+write.table(Target, paste0("Results_Impute2/",condition,"/", rep, "/Inversions/", inv, "/", pop, "/", samp, "/Target.sample"), quote = F, sep = "\t", row.names = F, col.names = T)

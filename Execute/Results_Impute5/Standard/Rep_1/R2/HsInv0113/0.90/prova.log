@@ -1,0 +1,26 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --ld-window-r2 0
+  --out prova
+  --r2
+  --vcf EUR.vcf
+
+Hostname: aftimo
+Working directory: /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_1/R2/HsInv0113/0.90
+Start time: Sun Jun 16 12:43:54 2024
+
+Random number seed: 1718534634
+31827 MB RAM detected; reserving 15913 MB for main workspace.
+--vcf: prova-temporary.bed + prova-temporary.bim + prova-temporary.fam written.
+2 variants loaded from .bim file.
+36 people (0 males, 0 females, 36 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to prova.nosex .
+Using up to 19 threads (change this with --threads).
+Before main variant filters, 36 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is exactly 1.
+2 variants and 36 people pass filters and QC.
+Note: No phenotypes present.
+--r2 to prova.ld ... done.
+
+End time: Sun Jun 16 12:43:54 2024

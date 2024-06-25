@@ -1,0 +1,201 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+```
+
+
+```{r}
+library(colorBlindness)
+library(knitr)
+library(kableExtra)
+```
+
+```{r}
+Methods <- data.frame("Imputation Method" = c("BEAGLE", "Impute2", "Impute5", "Minimac4", "scoreInvHap"), "Replicates" = c(5, 2, 5, 5, 5), "BEAGLE Phasing" = c("Yes", "Yes", "Yes", "Yes", "Yes"), "Shapeit Phasing" = c("Yes", "Yes", "Yes", "Yes", "Yes"), "Unphased" = c("No", "Yes", "No", "No", "No"), "GP Filtering" = c("Yes", "Yes", "Yes", "Yes", "No"), check.names = FALSE)
+Methods$Replicates <- as.character(Methods$Replicates)
+```
+
+```{r}
+Methods %>% kbl(format = "html", centering = TRUE) %>% kable_minimal()
+```
+
+```{r}
+library(caret)
+library(glmnet)
+library(nnet)
+library(e1071)
+```
+
+
+
+
+```{r}
+train_control <- trainControl(method = "cv", number = 10)
+```
+
+```{r}
+linear_model <- train(mpg ~ ., data = mtcars, method = "lm", trControl = train_control)
+```
+
+```{r}
+mtcars$mpg_binary <- ifelse(mtcars$mpg > median(mtcars$mpg), 1, 0)
+mtcars$mpg_binary <- as.factor(mtcars$mpg_binary)
+logistic_model <- train(mpg_binary ~ ., data = mtcars, method = "glm", family = "binomial", trControl = train_control)
+```
+
+```{r}
+polynomial_model <- train(mpg ~ poly(hp, 2) + poly(wt, 2), data = mtcars, method = "lm", trControl = train_control)
+```
+
+```{r}
+x <- model.matrix(mpg ~ . - 1, data = mtcars)
+y <- mtcars$mpg
+lasso_model <- cv.glmnet(x, y, alpha = 1, nfolds = 10)
+```
+
+
+```{r}
+# Linear model performance
+print(linear_model)
+# Logistic model performance
+print(logistic_model)
+# Polynomial model performance
+print(polynomial_model)
+
+# For Lasso, we need to manually extract and compare metrics
+lasso_model$cvm[lasso_model$lambda == lasso_model$lambda.min]
+```
+
+```{r}
+resamples_list <- resamples(list(linear = linear_model, logistic = logistic_model, polynomial = polynomial_model))
+summary(resamples_list)
+dotPlot(resamples_list)
+```
+```{r}
+lasso_performance <- data.frame(
+  Model = "Lasso",
+  RMSE = sqrt(mean((predict(lasso_model, x, s = "lambda.min") - y)^2)),
+  Rsquared = cor(predict(lasso_model, x, s = "lambda.min"), y)^2
+)
+print(lasso_performance)
+```
+
+
+
+```{r}
+ggstatsplot::ggbetweenstats(
+  data = dplyr::filter(gapminder::gapminder, year == 2007, continent != "Oceania"),
+  x = continent,
+  y = lifeExp,
+  pairwise.display = "none",
+  results.subtitle = FALSE
+  
+)
+```
+
+
+```{r}
+scales::show_col(hue_pal()(5))
+c("#F8766D", "#00BFC4", "#7CAE00", "#C77CFF")
+
+c("#8DD3C7", "#FFFFB3", "#BEBADA", "#FB8072", "#80B1D3")
+```
+
+```{r}
+BEAGLE.to.plot <- BEAGLE.Very.Imputable %>%
+  summarise_at(
+    vars(starts_with("Very.Imputable.Beagle.Standard")),
+    list(
+      count_true = ~ sum(. == TRUE, na.rm = TRUE),
+      count_false = ~ sum(. == FALSE, na.rm = TRUE),
+      count_na = ~ sum(is.na(.))
+    )
+  )  %>%
+  pivot_longer(cols = everything(), 
+               names_to = c(".value", "measure"), 
+               names_pattern = "(.*)\\.(.*)") %>% as.data.frame()
+BEAGLE.to.plot
+matrix_transposed <- t(BEAGLE.to.plot)
+df_transposed <- as.data.frame(matrix_transposed[-1,]);
+colnames(df_transposed) <- matrix_transposed[1,]
+df_transposed_melt <- df_transposed %>% rownames_to_column(var = "Filter") %>% melt(id.vars = "Filter")
+df_transposed_melt
+
+df_transposed_melt %>% ggplot(mapping = aes(x = Filter,y = value)) + geom_bar(stat = "identity") + facet_wrap(~ variable, nrow = 3,scales = c("free_x")) + scale_x_discrete(labels = c(0.50, 0.70, 0.80, 0.90, 0.95))
+```
+
+```{r}
+ScoreInvHap.to.plot <- scoreInvHap.AFR %>%
+  summarise_at(
+    vars(contains("Imputable")),
+    list(
+      count_true = ~ sum(. == TRUE, na.rm = TRUE),
+      count_false = ~ sum(. == FALSE, na.rm = TRUE),
+      count_na = ~ sum(is.na(.))
+    )
+  )  %>%
+  pivot_longer(cols = everything(), 
+               names_to = c(".value", "measure"), 
+               names_pattern = "(.*)\\.(.*)") %>% as.data.frame()
+ScoreInvHap.to.plot <- ScoreInvHap.to.plot[c(-2,-3)]
+ScoreInvHap.to.plot
+matrix_transposed <- t(ScoreInvHap.to.plot)
+df_transposed <- as.data.frame(apply(matrix_transposed[-1,],2, as.numeric))
+df_transposed
+colnames(df_transposed) <- matrix_transposed[1,]
+df_transposed
+row.names(df_transposed) <- colnames(ScoreInvHap.to.plot)[-1]
+df_transposed
+df_transposed_melt <- df_transposed %>% rownames_to_column(var = "Filter") %>% melt(id.vars = "Filter")
+df_transposed_melt
+
+df_transposed_melt %>% ggplot(mapping = aes(x = Filter,y = value)) + geom_bar(stat = "identity") + facet_wrap(~ variable, nrow = 3,scales = c("free_x")) + scale_x_discrete(labels = c(0.50, 0.70, 0.80, 0.90, 0.95))
+
+plot_grob <- df_transposed %>% ggplot(mapping = aes(x = factor(row.names(df_transposed), levels = rev(levels(factor(row.names(df_transposed))))), y = AFR_count_true, ymin = 0, ymax = 40)) + geom_bar(stat = "identity") + geom_text(aes(label = AFR_count_true), vjust = -0.5, color = "black", size = 3) + labs(x = "Imputability", y = "Number of inversions", title = "Inversion Imputability for ScoreInvHap in AFR") + scale_x_discrete(labels = c("Not imputable (< 0.60)", "Barely imputable (0.60 - 0.80)", "Imputable (> 0.80)"))
+llist <-list()
+llist$plot1 <- plot_grob
+llist$plot2 <- plot_grob
+llist
+plot_grid(unlist(llist), ncol = 2)
+grobs <- lapply(llist, ggplotGrob)
+grid.arrange(grobs = grobs, ncol = 2)
+```
+
+```{r}
+
+
+
+BEAGLE.Standard.Indvs <- sel_df(Invs.Indiv.Info, imp_method = "Beagle", condition = "BEAGLE_Phase", pop = "EUR")
+
+BEAGLE.Standard.Indvs.Percentages <- BEAGLE.Standard.Indvs[-1] / BEAGLE.Standard.Indvs$Indvs.Beagle.BEAGLE_Phase.0.00.EUR * 100
+
+BEAGLE.Standard.Indvs.Percentages <- cbind(BEAGLE.Standard.Indvs[1],BEAGLE.Standard.Indvs.Percentages)
+
+BEAGLE.Standard.Invs <- sel_df(Imputation.Info, imp_method = "Beagle", condition = "BEAGLE_Phase", pop = "EUR", filter = "Mean")
+BEAGLE.Standard.Invs
+BEAGLE.Standard.Invs[c(1:5),c(1:6)]
+melt(BEAGLE.Standard.Indvs.Percentages, id.vars = "INV")
+# BEAGLE.Standard.Invs.Percentages <- BEAGLE.Standard.Invs[-1] / BEAGLE.Standard.Invs$Mean.Beagle.Standard.0.50.EUR * 100
+# BEAGLE.Standard.Invs.Percentages <- cbind(BEAGLE.Standard.Invs[1],BEAGLE.Standard.Invs.Percentages)
+# BEAGLE.Standard.Invs.Percentages
+
+ggplot(melt(BEAGLE.Standard.Invs[c(1:5),c(1:6)], id.vars = "INV"), aes(x = variable, y = value, group = INV, color = factor(INV))) +
+  geom_line() +
+  labs(x = "GP Filter", y = expression(R^2), title = "Inversion Imputability Using Different GP Filters") + scale_x_discrete(labels = c("0.50", "0.70", "0.80", "0.90", "0.95"))
+
+ggplot(melt(BEAGLE.Standard.Indvs.Percentages[c(1:5),c(1:6)], id.vars = "INV"), aes(x = variable, y = value, group = INV, color = factor(INV), ymin = 0)) +
+  geom_line(linetype = 5) +
+  labs(x = "GP Filter", y = "% Initial Indivs", title = "Inversion Imputability Using Different GP Filters") + scale_x_discrete(labels = c("0.50", "0.70", "0.80", "0.90", "0.95"))
+
+
+dfs <- plot_method_vs_indiv("Beagle", "Standard", "AFR", plot = FALSE); dfs
+```
+
+```{r}
+displayAllColors(rainbow(10))
+displayAllColors(viridis::viridis(10))
+```
+

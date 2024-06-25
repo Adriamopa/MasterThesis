@@ -1,0 +1,88 @@
+
+[IMPUTE5] Imputation of phased SNP array data from large reference panels
+  * Authors             : Simone Rubinacci & Jonathan Marchini, 2023
+  * Contact             : rubinacci.simone@gmail.com
+  * Version       	: IMPUTE5 v1.2.0 / commit = 6e3d41e / release = 2023-08-21
+  * Citation	        : PLOS Genetics 16(11): e1009049 (2020). DOI: https://doi.org/10.1371/journal.pgen.1009049
+  * Licence	        : IMPUTE5 is freely available only for academic use. To see rules for non-academic use, please read the LICENCE.
+  * Run date            : 29/04/2024 - 17:48:22
+
+Files:
+  * Input phased array  : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_1/Inversions/HsInv0325/Target.vcf.gz]
+  * Reference panel     : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_1/Inversions/HsInv0325/Ref.vcf.gz]
+  * Output file         : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_1/Inversions/HsInv0325/Out.vcf.gz]
+  * Output format       : [VCF format | ZLIB compression | no CSI index]
+  * Output LOG          : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_1/Inversions/HsInv0325/Log]
+
+IMPUTE5 parameters:
+  * Imputation model    : [Reference panel imputation]
+  * Input region        : [10:36902417-37313835]
+  * Output region       : [10:37108134-37108136]
+  * Sparse MAF          : [0.03125]
+  * Recombination rates : [Given by genetic map]
+  * Ploidy              : [Only diploid samples in region]
+
+Model parameters:
+  * Ne [eff. pop. size] : [20000]
+  * Imputation err. rate: [0.0001]
+
+Selection parameters:
+  * K pbwt              : [1500]
+  * PBWT max depth      : [10]
+  * PBWT min depth      : [2]
+  * PBWT modulo (cM)    : [0.005]
+
+Test statistics parameters:
+  * Surfbat test        : [NO]
+  * Surfbat MAF         : [0.01]
+  * Surfbat INFO        : [0.3]
+
+Output
+  * FORMAT/GT           : [YES]
+  * FORMAT/DS           : [YES]
+  * FORMAT/GP           : [YES]
+  * FORMAT/AP           : [NO]
+  * FORMAT/SAP          : [NO]
+  * Buffer              : [NO]
+  * CSI index           : [NO]
+
+Other parameters
+  * Seed                : [42]
+  * #Threads            : [10]
+
+Initialisation:
+  * XCF scanning	[done]		[Li=2895 | Lg= 2894 | Lt=0]	(0.04s)
+  * XCF parsing		[done]		[Li=2895 | Lg= 2894 | Lt=0]	(0.03s)
+  * Common transpose	[ref]		[var2hap]			(0.00s)
+  * Rare transpose	[ref]		[var2hap]	[nrar=0]	(0.00s)
+  * Genetic map		[n=180053]					(0.13s)
+  * cM interpolation	[s=341 / i=2554]				(0.00s)
+
+Samples statistics
+  * Reference panel 	[Nrh=268]	[L=2895]	[Lb=2894]
+    	Imputation reg.	[Lg=0]	[Lr=0]	[Lc=2895]
+  * Target panel 	[Nth=2]	[L=2894]	[Lb=2894]
+    	Imputation reg.	[Lg=0]	[Lt=0]
+
+Region statistics
+  * Buffer region 	[10:36902417-37313835]
+  * Imputation region	[10:37108134-37108136]
+  * Region span   	[0.41 Mb]	[0.13 cM]
+
+PBWT state selection
+
+WARNING: Using the full reference panel. This might result in excessive runtime and memory usage. Ignore this message if the size of your reference panel is less or equal than the default value of the Kpbwt parameter
+
+  * PBWT stats		[No PBWT]	[done]				(0.00s)
+  * Geno transpose	[ref]		[var2hap]			(0.00s)
+
+Imputing variants
+  * HMM imputation	[done]	[#states=268.0 / mono=0.0% / %srd=0]	(0.01s)
+
+Finalization
+  * VCF writing 	[done]		[ZLIB / N=1 / L=2895]	(0.03s)
+
+  * Output file         : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_1/Inversions/HsInv0325/Out.vcf.gz]
+  * Output format       : [VCF format | ZLIB compression | no CSI index]
+
+Total running time [] (0s)

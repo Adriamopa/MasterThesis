@@ -1,0 +1,18 @@
+---
+ · OS:
+   - Ubuntu-version: "22.04.4"
+   - Platform: "x86_64-pc-linux-gnu"
+ · scoreInvHap:
+   - R-version: "4.3.3"
+   - scoreInvHap-version: "1.24.0"
+ - IMPUTE2: "2.3.2" (aquest és un binari)
+ - IMPUTE5: "1.2.0" (aquest és un binari)
+ · BEAGLE:
+   - java-version: "17.0.10"
+   - beagle-version: "22Jul22.46e" (aquest és un .jar, no cal)
+ - gcc: "11.4.0"
+ - bcftools: "1.13"
+ - plink: "1.90b7.2"
+ - tabix: "1.13"
+ - vcftools: "0.1.16"
+ - perl: "5.34.0"

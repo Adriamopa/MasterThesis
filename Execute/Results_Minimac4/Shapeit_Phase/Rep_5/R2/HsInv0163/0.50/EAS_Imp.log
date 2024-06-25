@@ -1,0 +1,39 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --make-bed
+  --out /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_5/R2/HsInv0163/0.50/EAS_Imp
+  --vcf /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_5/R2/HsInv0163/0.50/EAS_Imp.vcf
+
+Hostname: aftimo
+Working directory: /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute
+Start time: Mon Jun 17 15:46:51 2024
+
+Random number seed: 1718632011
+31827 MB RAM detected; reserving 15913 MB for main workspace.
+--vcf:
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_5/R2/HsInv0163/0.50/EAS_Imp-temporary.bed
++
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_5/R2/HsInv0163/0.50/EAS_Imp-temporary.bim
++
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_5/R2/HsInv0163/0.50/EAS_Imp-temporary.fam
+written.
+1 variant loaded from .bim file.
+29 people (0 males, 0 females, 29 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_5/R2/HsInv0163/0.50/EAS_Imp.nosex
+.
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 29 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is exactly 1.
+1 variant and 29 people pass filters and QC.
+Note: No phenotypes present.
+--make-bed to
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_5/R2/HsInv0163/0.50/EAS_Imp.bed
++
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_5/R2/HsInv0163/0.50/EAS_Imp.bim
++
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Minimac4/Shapeit_Phase/Rep_5/R2/HsInv0163/0.50/EAS_Imp.fam
+... done.
+
+End time: Mon Jun 17 15:46:51 2024

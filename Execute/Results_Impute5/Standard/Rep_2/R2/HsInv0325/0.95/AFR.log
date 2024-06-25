@@ -1,0 +1,30 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --bfile /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_2/R2/HsInv0325/0.95/AFR_Exp
+  --bmerge /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_2/R2/HsInv0325/0.95/AFR_Imp
+  --merge-mode 6
+  --out /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_2/R2/HsInv0325/0.95/AFR
+
+Hostname: aftimo
+Working directory: /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute
+Start time: Mon Jun 17 15:01:48 2024
+
+Random number seed: 1718629308
+31827 MB RAM detected; reserving 15913 MB for main workspace.
+48 people loaded from
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_2/R2/HsInv0325/0.95/AFR_Exp.fam.
+48 people to be merged from
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_2/R2/HsInv0325/0.95/AFR_Imp.fam.
+Of these, 0 are new, while 48 are present in the base dataset.
+1 marker loaded from
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_2/R2/HsInv0325/0.95/AFR_Exp.bim.
+1 marker to be merged from
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_2/R2/HsInv0325/0.95/AFR_Imp.bim.
+Of these, 0 are new, while 1 is present in the base dataset.
+Performing 1-pass diff (mode 6), writing results to
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_Impute5/Standard/Rep_2/R2/HsInv0325/0.95/AFR.diff
+.
+48 overlapping calls, 48 nonmissing in both filesets.
+46 concordant, for a concordance rate of 0.958333.
+
+End time: Mon Jun 17 15:01:48 2024

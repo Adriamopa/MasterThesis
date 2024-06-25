@@ -1,0 +1,165 @@
+
+[SHAPEIT5] phase_common (jointly phase multiple common markers)
+  * Author        : Olivier DELANEAU, University of Lausanne
+  * Contact       : olivier.delaneau@gmail.com
+  * Version       : 5.1.1 / commit = 990ed0d / release = 2023-05-08
+  * Run date      : 19/04/2024 - 11:40:32
+
+Files:
+  * Input         : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/../VCFs/Inversion_Regions/Shapeit_Phase/HsInv0374/RegionAnnotated.bcf]
+  * Haploids      : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/../VCFs/Inversion_Regions/Shapeit_Phase/HsInv0374/male_samples.txt]
+  * Genetic Map   : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/../VCFs/30X/Maps/chr17.b38.gmap.gz]
+  * Output        : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/../VCFs/Inversion_Regions/Shapeit_Phase/HsInv0374/RegionScaffold.bcf]
+  * Output format : [bcf]
+  * Output LOG    : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/../VCFs/Inversion_Regions/Shapeit_Phase/HsInv0374/OutputCommon.log]
+
+Parameters:
+  * Seed    : 15052011
+  * Threads : 5 threads
+  * MCMC    : 15 iterations [5b + 1p + 1b + 1p + 1b + 1p + 5m]
+  * PBWT    : [window = 4cM / depth = auto / modulo = auto / mac = 5 / missing = 0.1]
+  * HMM     : [window = 4cM / Ne = 15000 / Recombination rates given by genetic map]
+  * FILTERS : [snp only = 0 / MAF = 0.05]
+
+Reading genotype data:
+  * VCF/BCF scanning done (0.04s)
+      + Variants [#sites=1490 / region=17:30416129-30831350]
+         - 3786 sites removed in main panel [below MAF threshold]
+      + Samples [#target=515 / #reference=0]
+  * VCF/BCF parsing done (0.07s)
+      + Genotypes [0/0=68.994%, 0/1=23.173%, 1/1=7.833%, ./.=0.000%, 0|1=0.000%]
+  * Haploid parsing [n=1599] (0.00s)
+  * Haploid sample mapping (0.00s)
+      + #haploids = 0 / #diploids = 515
+      + Hets set as missing: n=0 (-nan%)
+
+Setting up genetic map:
+  * GMAP parsing [n=74565] (0.08s)
+  * cM interpolation [s=168 / i=1322] (0.00s)
+  * Region length [415184 bp / 0.1 cM]
+  * HMM parameters [Ne=15000 / Error=0.0001 / #rare=0]
+
+Initializing data structures:
+  * Impute monomorphic [n=0] (0.00s)
+  * HAP update (0.00s)
+  * H2V transpose (0.00s)
+  * PBWT parameters auto setting : [modulo = 0.033 / depth = 6]
+  * PBWT initialization [#eval=1490 / #select=3 / #chunk=1] (0.00s)
+  * PBWT phasing sweep (0.06s)
+  * Build genotype graphs [seg=59440] (0.03s)
+
+Burn-in iteration [1/5]
+  * PBWT selection (0.03s)
+  * HMM computations [K=29.2+/-3.6 / W=0.42Mb / US=0 / UP=0] (0.12s)
+  * IBD2 tracks [#inds=67 / #tracks=78 / #merged = 0]
+  * HAP update (0.01s)
+  * H2V transpose (0.00s)
+
+Burn-in iteration [2/5]
+  * PBWT selection (0.02s)
+  * HMM computations [K=27.3+/-3.5 / W=0.42Mb / US=0 / UP=0] (0.12s)
+  * IBD2 tracks [#inds=134 / #tracks=183 / #merged = 0]
+  * HAP update (0.01s)
+  * H2V transpose (0.00s)
+
+Burn-in iteration [3/5]
+  * PBWT selection (0.02s)
+  * HMM computations [K=30.0+/-3.4 / W=0.42Mb / US=0 / UP=0] (0.14s)
+  * IBD2 tracks [#inds=157 / #tracks=218 / #merged = 0]
+  * HAP update (0.01s)
+  * H2V transpose (0.00s)
+
+Burn-in iteration [4/5]
+  * PBWT selection (0.01s)
+  * HMM computations [K=28.6+/-3.7 / W=0.42Mb / US=0 / UP=0] (0.12s)
+  * IBD2 tracks [#inds=161 / #tracks=241 / #merged = 0]
+  * HAP update (0.01s)
+  * H2V transpose (0.00s)
+
+Burn-in iteration [5/5]
+  * PBWT selection (0.02s)
+  * HMM computations [K=32.5+/-2.5 / W=0.42Mb / US=0 / UP=0] (0.13s)
+  * IBD2 tracks [#inds=182 / #tracks=302 / #merged = 0]
+  * HAP update (0.00s)
+  * H2V transpose (0.00s)
+
+Pruning iteration [1/1]
+  * PBWT selection (0.01s)
+  * HMM computations [K=32.3+/-2.7 / W=0.42Mb / US=0 / UP=0] (0.26s)
+  * IBD2 tracks [#inds=194 / #tracks=341 / #merged = 0]
+  * HAP update (0.01s)
+  * H2V transpose (0.00s)
+  * Trimming [pc=43.13%]
+
+Burn-in iteration [1/1]
+  * PBWT selection (0.02s)
+  * HMM computations [K=24.9+/-3.1 / W=0.42Mb / US=0 / UP=0] (0.13s)
+  * IBD2 tracks [#inds=196 / #tracks=361 / #merged = 0]
+  * HAP update (0.01s)
+  * H2V transpose (0.00s)
+
+Pruning iteration [1/1]
+  * PBWT selection (0.01s)
+  * HMM computations [K=29.9+/-3.6 / W=0.42Mb / US=0 / UP=0] (0.23s)
+  * IBD2 tracks [#inds=202 / #tracks=384 / #merged = 0]
+  * HAP update (0.00s)
+  * H2V transpose (0.00s)
+  * Trimming [pc=67.61%]
+
+Burn-in iteration [1/1]
+  * PBWT selection (0.01s)
+  * HMM computations [K=31.3+/-3.1 / W=0.42Mb / US=0 / UP=1] (0.09s)
+  * IBD2 tracks [#inds=213 / #tracks=412 / #merged = 0]
+  * HAP update (0.00s)
+  * H2V transpose (0.00s)
+
+Pruning iteration [1/1]
+  * PBWT selection (0.01s)
+  * HMM computations [K=30.9+/-3.3 / W=0.42Mb / US=0 / UP=0] (0.11s)
+  * IBD2 tracks [#inds=217 / #tracks=431 / #merged = 0]
+  * HAP update (0.01s)
+  * H2V transpose (0.00s)
+  * Trimming [pc=80.07%]
+
+Main iteration [1/5]
+  * PBWT selection (0.01s)
+  * HMM computations [K=30.9+/-3.2 / W=0.42Mb / US=0 / UP=1] (0.08s)
+  * IBD2 tracks [#inds=218 / #tracks=447 / #merged = 0]
+  * HAP update (0.00s)
+  * H2V transpose (0.00s)
+
+Main iteration [2/5]
+  * PBWT selection (0.01s)
+  * HMM computations [K=32.5+/-2.6 / W=0.42Mb / US=0 / UP=0] (0.09s)
+  * IBD2 tracks [#inds=221 / #tracks=462 / #merged = 0]
+  * HAP update (0.00s)
+  * H2V transpose (0.00s)
+
+Main iteration [3/5]
+  * PBWT selection (0.01s)
+  * HMM computations [K=31.4+/-3.2 / W=0.42Mb / US=0 / UP=0] (0.10s)
+  * IBD2 tracks [#inds=221 / #tracks=471 / #merged = 0]
+  * HAP update (0.01s)
+  * H2V transpose (0.00s)
+
+Main iteration [4/5]
+  * PBWT selection (0.01s)
+  * HMM computations [K=30.6+/-3.4 / W=0.42Mb / US=0 / UP=0] (0.09s)
+  * IBD2 tracks [#inds=222 / #tracks=483 / #merged = 0]
+  * HAP update (0.00s)
+  * H2V transpose (0.00s)
+
+Main iteration [5/5]
+  * PBWT selection (0.01s)
+  * HMM computations [K=30.9+/-3.2 / W=0.42Mb / US=0 / UP=2] (0.10s)
+  * IBD2 tracks [#inds=222 / #tracks=494 / #merged = 0]
+  * HAP update (0.01s)
+  * H2V transpose (0.00s)
+
+Finalization:
+  * HAP solving (0.01s)
+  * HAP update (0.00s)
+  * H2V transpose (0.00s)
+  * VCF/BCF writing [N=515 / L=1490] (0.07s)
+  * Indexing files
+  * Total running time = 2 seconds

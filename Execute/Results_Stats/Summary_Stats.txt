@@ -1,0 +1,1344 @@
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.00	POPULATION: AFR
+	VERY IMPUTABLE:	3
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	13
+	NOT IMPUTABLE:	23
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.00	POPULATION: EAS
+	VERY IMPUTABLE:	5
+	QUITE IMPUTABLE:	3
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	30
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.00	POPULATION: EUR
+	VERY IMPUTABLE:	17
+	QUITE IMPUTABLE:	3
+	BARELY IMPUTABLE:	14
+	NOT IMPUTABLE:	18
+	NA:	3
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.30	POPULATION: AFR
+	VERY IMPUTABLE:	3
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	13
+	NOT IMPUTABLE:	23
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.30	POPULATION: EAS
+	VERY IMPUTABLE:	5
+	QUITE IMPUTABLE:	3
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	30
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.30	POPULATION: EUR
+	VERY IMPUTABLE:	17
+	QUITE IMPUTABLE:	3
+	BARELY IMPUTABLE:	14
+	NOT IMPUTABLE:	18
+	NA:	3
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.50	POPULATION: AFR
+	VERY IMPUTABLE:	3
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	13
+	NOT IMPUTABLE:	23
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.50	POPULATION: EAS
+	VERY IMPUTABLE:	5
+	QUITE IMPUTABLE:	3
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	30
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.50	POPULATION: EUR
+	VERY IMPUTABLE:	17
+	QUITE IMPUTABLE:	3
+	BARELY IMPUTABLE:	14
+	NOT IMPUTABLE:	18
+	NA:	3
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.70	POPULATION: AFR
+	VERY IMPUTABLE:	4
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	14
+	NOT IMPUTABLE:	21
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.70	POPULATION: EAS
+	VERY IMPUTABLE:	6
+	QUITE IMPUTABLE:	3
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	28
+	NA:	8
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.70	POPULATION: EUR
+	VERY IMPUTABLE:	19
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	14
+	NOT IMPUTABLE:	15
+	NA:	3
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.80	POPULATION: AFR
+	VERY IMPUTABLE:	7
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	13
+	NOT IMPUTABLE:	21
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.80	POPULATION: EAS
+	VERY IMPUTABLE:	7
+	QUITE IMPUTABLE:	3
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	27
+	NA:	8
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.80	POPULATION: EUR
+	VERY IMPUTABLE:	19
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	15
+	NOT IMPUTABLE:	14
+	NA:	3
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.90	POPULATION: AFR
+	VERY IMPUTABLE:	8
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	14
+	NOT IMPUTABLE:	19
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.90	POPULATION: EAS
+	VERY IMPUTABLE:	9
+	QUITE IMPUTABLE:	2
+	BARELY IMPUTABLE:	11
+	NOT IMPUTABLE:	24
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.90	POPULATION: EUR
+	VERY IMPUTABLE:	20
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	13
+	NOT IMPUTABLE:	14
+	NA:	3
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.95	POPULATION: AFR
+	VERY IMPUTABLE:	8
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	13
+	NOT IMPUTABLE:	19
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.95	POPULATION: EAS
+	VERY IMPUTABLE:	9
+	QUITE IMPUTABLE:	2
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	24
+	NA:	10
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Standard	GP FILTER: 0.95	POPULATION: EUR
+	VERY IMPUTABLE:	20
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	13
+	NOT IMPUTABLE:	13
+	NA:	4
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.00	POPULATION: AFR
+	VERY IMPUTABLE:	3
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	15
+	NOT IMPUTABLE:	21
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.00	POPULATION: EAS
+	VERY IMPUTABLE:	5
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	5
+	NOT IMPUTABLE:	31
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.00	POPULATION: EUR
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	10
+	BARELY IMPUTABLE:	17
+	NOT IMPUTABLE:	14
+	NA:	2
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.30	POPULATION: AFR
+	VERY IMPUTABLE:	3
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	15
+	NOT IMPUTABLE:	21
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.30	POPULATION: EAS
+	VERY IMPUTABLE:	5
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	5
+	NOT IMPUTABLE:	31
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.30	POPULATION: EUR
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	10
+	BARELY IMPUTABLE:	17
+	NOT IMPUTABLE:	14
+	NA:	2
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.50	POPULATION: AFR
+	VERY IMPUTABLE:	3
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	15
+	NOT IMPUTABLE:	21
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.50	POPULATION: EAS
+	VERY IMPUTABLE:	5
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	5
+	NOT IMPUTABLE:	31
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.50	POPULATION: EUR
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	10
+	BARELY IMPUTABLE:	17
+	NOT IMPUTABLE:	14
+	NA:	2
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.70	POPULATION: AFR
+	VERY IMPUTABLE:	4
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	16
+	NOT IMPUTABLE:	20
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.70	POPULATION: EAS
+	VERY IMPUTABLE:	7
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	29
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.70	POPULATION: EUR
+	VERY IMPUTABLE:	14
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	16
+	NOT IMPUTABLE:	15
+	NA:	2
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.80	POPULATION: AFR
+	VERY IMPUTABLE:	4
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	15
+	NOT IMPUTABLE:	20
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.80	POPULATION: EAS
+	VERY IMPUTABLE:	8
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	26
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.80	POPULATION: EUR
+	VERY IMPUTABLE:	14
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	16
+	NOT IMPUTABLE:	15
+	NA:	2
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.90	POPULATION: AFR
+	VERY IMPUTABLE:	4
+	QUITE IMPUTABLE:	11
+	BARELY IMPUTABLE:	13
+	NOT IMPUTABLE:	20
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.90	POPULATION: EAS
+	VERY IMPUTABLE:	10
+	QUITE IMPUTABLE:	3
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	23
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.90	POPULATION: EUR
+	VERY IMPUTABLE:	13
+	QUITE IMPUTABLE:	10
+	BARELY IMPUTABLE:	15
+	NOT IMPUTABLE:	15
+	NA:	2
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.95	POPULATION: AFR
+	VERY IMPUTABLE:	5
+	QUITE IMPUTABLE:	11
+	BARELY IMPUTABLE:	14
+	NOT IMPUTABLE:	18
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.95	POPULATION: EAS
+	VERY IMPUTABLE:	9
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	20
+	NA:	12
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Beagle	CONDITION: Shapeit_Phase	GP FILTER: 0.95	POPULATION: EUR
+	VERY IMPUTABLE:	13
+	QUITE IMPUTABLE:	12
+	BARELY IMPUTABLE:	14
+	NOT IMPUTABLE:	13
+	NA:	3
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.00	POPULATION: AFR
+	VERY IMPUTABLE:	18
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	12
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.00	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	21
+	NA:	6
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.00	POPULATION: EUR
+	VERY IMPUTABLE:	28
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	4
+	NOT IMPUTABLE:	16
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.30	POPULATION: AFR
+	VERY IMPUTABLE:	18
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	12
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.30	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	21
+	NA:	6
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.30	POPULATION: EUR
+	VERY IMPUTABLE:	28
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	4
+	NOT IMPUTABLE:	16
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.50	POPULATION: AFR
+	VERY IMPUTABLE:	18
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	12
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.50	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	20
+	NA:	6
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.50	POPULATION: EUR
+	VERY IMPUTABLE:	28
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	4
+	NOT IMPUTABLE:	16
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.70	POPULATION: AFR
+	VERY IMPUTABLE:	19
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	12
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.70	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	20
+	NA:	6
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.70	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	4
+	NOT IMPUTABLE:	16
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.80	POPULATION: AFR
+	VERY IMPUTABLE:	19
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	12
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.80	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	20
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.80	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	5
+	NOT IMPUTABLE:	15
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.90	POPULATION: AFR
+	VERY IMPUTABLE:	19
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	12
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.90	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	20
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.90	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	4
+	NOT IMPUTABLE:	15
+	NA:	2
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.95	POPULATION: AFR
+	VERY IMPUTABLE:	19
+	QUITE IMPUTABLE:	10
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	12
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.95	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	3
+	BARELY IMPUTABLE:	11
+	NOT IMPUTABLE:	18
+	NA:	8
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Standard	GP FILTER: 0.95	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	5
+	NOT IMPUTABLE:	13
+	NA:	2
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.00	POPULATION: AFR
+	VERY IMPUTABLE:	18
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	14
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.00	POPULATION: EAS
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	21
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.00	POPULATION: EUR
+	VERY IMPUTABLE:	28
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	12
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.30	POPULATION: AFR
+	VERY IMPUTABLE:	18
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	14
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.30	POPULATION: EAS
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	21
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.30	POPULATION: EUR
+	VERY IMPUTABLE:	28
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	12
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.50	POPULATION: AFR
+	VERY IMPUTABLE:	18
+	QUITE IMPUTABLE:	10
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	14
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.50	POPULATION: EAS
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	21
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.50	POPULATION: EUR
+	VERY IMPUTABLE:	28
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	12
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.70	POPULATION: AFR
+	VERY IMPUTABLE:	18
+	QUITE IMPUTABLE:	10
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	13
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.70	POPULATION: EAS
+	VERY IMPUTABLE:	13
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	20
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.70	POPULATION: EUR
+	VERY IMPUTABLE:	28
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	12
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.80	POPULATION: AFR
+	VERY IMPUTABLE:	18
+	QUITE IMPUTABLE:	11
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	12
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.80	POPULATION: EAS
+	VERY IMPUTABLE:	13
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	11
+	NOT IMPUTABLE:	19
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.80	POPULATION: EUR
+	VERY IMPUTABLE:	28
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	12
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.90	POPULATION: AFR
+	VERY IMPUTABLE:	19
+	QUITE IMPUTABLE:	11
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	12
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.90	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	11
+	NOT IMPUTABLE:	17
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.90	POPULATION: EUR
+	VERY IMPUTABLE:	28
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	13
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.95	POPULATION: AFR
+	VERY IMPUTABLE:	19
+	QUITE IMPUTABLE:	11
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	11
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.95	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	12
+	NOT IMPUTABLE:	16
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Minimac4	CONDITION: Shapeit_Phase	GP FILTER: 0.95	POPULATION: EUR
+	VERY IMPUTABLE:	28
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	13
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.00	POPULATION: AFR
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	18
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.00	POPULATION: EAS
+	VERY IMPUTABLE:	14
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	24
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.00	POPULATION: EUR
+	VERY IMPUTABLE:	26
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	15
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.30	POPULATION: AFR
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	18
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.30	POPULATION: EAS
+	VERY IMPUTABLE:	14
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	24
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.30	POPULATION: EUR
+	VERY IMPUTABLE:	26
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	15
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.50	POPULATION: AFR
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	18
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.50	POPULATION: EAS
+	VERY IMPUTABLE:	14
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	24
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.50	POPULATION: EUR
+	VERY IMPUTABLE:	26
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	15
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.70	POPULATION: AFR
+	VERY IMPUTABLE:	17
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	12
+	NOT IMPUTABLE:	14
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.70	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	21
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.70	POPULATION: EUR
+	VERY IMPUTABLE:	26
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	15
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.80	POPULATION: AFR
+	VERY IMPUTABLE:	17
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	11
+	NOT IMPUTABLE:	14
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.80	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	19
+	NA:	8
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.80	POPULATION: EUR
+	VERY IMPUTABLE:	26
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	14
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.90	POPULATION: AFR
+	VERY IMPUTABLE:	18
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	14
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.90	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	18
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.90	POPULATION: EUR
+	VERY IMPUTABLE:	26
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	11
+	NA:	4
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.95	POPULATION: AFR
+	VERY IMPUTABLE:	18
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	14
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.95	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	18
+	NA:	10
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Standard	GP FILTER: 0.95	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	11
+	NA:	4
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.00	POPULATION: AFR
+	VERY IMPUTABLE:	16
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	17
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.00	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	5
+	NOT IMPUTABLE:	22
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.00	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	2
+	BARELY IMPUTABLE:	11
+	NOT IMPUTABLE:	14
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.30	POPULATION: AFR
+	VERY IMPUTABLE:	16
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	17
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.30	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	5
+	NOT IMPUTABLE:	22
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.30	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	2
+	BARELY IMPUTABLE:	11
+	NOT IMPUTABLE:	14
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.50	POPULATION: AFR
+	VERY IMPUTABLE:	16
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	17
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.50	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	5
+	NOT IMPUTABLE:	22
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.50	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	2
+	BARELY IMPUTABLE:	11
+	NOT IMPUTABLE:	14
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.70	POPULATION: AFR
+	VERY IMPUTABLE:	17
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	17
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.70	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	19
+	NA:	10
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.70	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	3
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	14
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.80	POPULATION: AFR
+	VERY IMPUTABLE:	17
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	17
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.80	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	17
+	NA:	11
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.80	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	14
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.90	POPULATION: AFR
+	VERY IMPUTABLE:	18
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	17
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.90	POPULATION: EAS
+	VERY IMPUTABLE:	16
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	15
+	NA:	11
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.90	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	14
+	NA:	1
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.95	POPULATION: AFR
+	VERY IMPUTABLE:	18
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	17
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.95	POPULATION: EAS
+	VERY IMPUTABLE:	16
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	15
+	NA:	12
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute5	CONDITION: Shapeit_Phase	GP FILTER: 0.95	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	13
+	NA:	2
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.00	POPULATION: AFR
+	VERY IMPUTABLE:	13
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	19
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.00	POPULATION: EAS
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	21
+	NA:	10
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.00	POPULATION: EUR
+	VERY IMPUTABLE:	20
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	17
+	NA:	3
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.30	POPULATION: AFR
+	VERY IMPUTABLE:	13
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	19
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.30	POPULATION: EAS
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	21
+	NA:	10
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.30	POPULATION: EUR
+	VERY IMPUTABLE:	20
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	17
+	NA:	3
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.50	POPULATION: AFR
+	VERY IMPUTABLE:	13
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	18
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.50	POPULATION: EAS
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	21
+	NA:	10
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.50	POPULATION: EUR
+	VERY IMPUTABLE:	20
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	17
+	NA:	3
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.70	POPULATION: AFR
+	VERY IMPUTABLE:	17
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	12
+	NA:	8
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.70	POPULATION: EAS
+	VERY IMPUTABLE:	13
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	16
+	NA:	13
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.70	POPULATION: EUR
+	VERY IMPUTABLE:	21
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	11
+	NOT IMPUTABLE:	12
+	NA:	5
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.80	POPULATION: AFR
+	VERY IMPUTABLE:	18
+	QUITE IMPUTABLE:	11
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	10
+	NA:	8
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.80	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	3
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	13
+	NA:	15
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.80	POPULATION: EUR
+	VERY IMPUTABLE:	23
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	10
+	NA:	6
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.90	POPULATION: AFR
+	VERY IMPUTABLE:	20
+	QUITE IMPUTABLE:	10
+	BARELY IMPUTABLE:	4
+	NOT IMPUTABLE:	12
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.90	POPULATION: EAS
+	VERY IMPUTABLE:	14
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	11
+	NOT IMPUTABLE:	10
+	NA:	16
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.90	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	8
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.95	POPULATION: AFR
+	VERY IMPUTABLE:	23
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	9
+	NA:	10
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.95	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	9
+	NA:	18
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Standard	GP FILTER: 0.95	POPULATION: EUR
+	VERY IMPUTABLE:	25
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	9
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.00	POPULATION: AFR
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	11
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	18
+	NA:	8
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.00	POPULATION: EAS
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	23
+	NA:	10
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.00	POPULATION: EUR
+	VERY IMPUTABLE:	20
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	15
+	NA:	4
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.30	POPULATION: AFR
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	11
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	18
+	NA:	8
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.30	POPULATION: EAS
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	23
+	NA:	10
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.30	POPULATION: EUR
+	VERY IMPUTABLE:	20
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	15
+	NA:	4
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.50	POPULATION: AFR
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	11
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	16
+	NA:	8
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.50	POPULATION: EAS
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	23
+	NA:	10
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.50	POPULATION: EUR
+	VERY IMPUTABLE:	20
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	12
+	NOT IMPUTABLE:	13
+	NA:	4
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.70	POPULATION: AFR
+	VERY IMPUTABLE:	16
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	13
+	NA:	8
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.70	POPULATION: EAS
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	16
+	NA:	13
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.70	POPULATION: EUR
+	VERY IMPUTABLE:	22
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	12
+	NOT IMPUTABLE:	11
+	NA:	5
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.80	POPULATION: AFR
+	VERY IMPUTABLE:	19
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	11
+	NOT IMPUTABLE:	10
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.80	POPULATION: EAS
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	12
+	NA:	15
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.80	POPULATION: EUR
+	VERY IMPUTABLE:	24
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	9
+	NA:	6
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.90	POPULATION: AFR
+	VERY IMPUTABLE:	20
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	12
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.90	POPULATION: EAS
+	VERY IMPUTABLE:	14
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	11
+	NOT IMPUTABLE:	11
+	NA:	15
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.90	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	3
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	7
+	NA:	8
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.95	POPULATION: AFR
+	VERY IMPUTABLE:	24
+	QUITE IMPUTABLE:	7
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	9
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.95	POPULATION: EAS
+	VERY IMPUTABLE:	16
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	8
+	NOT IMPUTABLE:	10
+	NA:	17
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Shapeit_Phase	GP FILTER: 0.95	POPULATION: EUR
+	VERY IMPUTABLE:	26
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	8
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.00	POPULATION: AFR
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	18
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.00	POPULATION: EAS
+	VERY IMPUTABLE:	13
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	19
+	NA:	12
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.00	POPULATION: EUR
+	VERY IMPUTABLE:	20
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	16
+	NA:	3
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.30	POPULATION: AFR
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	18
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.30	POPULATION: EAS
+	VERY IMPUTABLE:	13
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	19
+	NA:	12
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.30	POPULATION: EUR
+	VERY IMPUTABLE:	20
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	16
+	NA:	3
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.50	POPULATION: AFR
+	VERY IMPUTABLE:	12
+	QUITE IMPUTABLE:	10
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	17
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.50	POPULATION: EAS
+	VERY IMPUTABLE:	13
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	6
+	NOT IMPUTABLE:	19
+	NA:	12
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.50	POPULATION: EUR
+	VERY IMPUTABLE:	20
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	16
+	NA:	3
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.70	POPULATION: AFR
+	VERY IMPUTABLE:	17
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	11
+	NA:	8
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.70	POPULATION: EAS
+	VERY IMPUTABLE:	13
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	14
+	NA:	13
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.70	POPULATION: EUR
+	VERY IMPUTABLE:	20
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	12
+	NA:	4
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.80	POPULATION: AFR
+	VERY IMPUTABLE:	18
+	QUITE IMPUTABLE:	9
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	11
+	NA:	8
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.80	POPULATION: EAS
+	VERY IMPUTABLE:	13
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	11
+	NA:	15
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.80	POPULATION: EUR
+	VERY IMPUTABLE:	23
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	9
+	NA:	6
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.90	POPULATION: AFR
+	VERY IMPUTABLE:	19
+	QUITE IMPUTABLE:	13
+	BARELY IMPUTABLE:	5
+	NOT IMPUTABLE:	9
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.90	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	10
+	NOT IMPUTABLE:	10
+	NA:	15
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.90	POPULATION: EUR
+	VERY IMPUTABLE:	26
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	8
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.95	POPULATION: AFR
+	VERY IMPUTABLE:	23
+	QUITE IMPUTABLE:	8
+	BARELY IMPUTABLE:	5
+	NOT IMPUTABLE:	9
+	NA:	10
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.95	POPULATION: EAS
+	VERY IMPUTABLE:	15
+	QUITE IMPUTABLE:	6
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	8
+	NA:	19
+-------------------------------------------------------------------------
+IMPUTATION METHOD: Impute2	CONDITION: Unphased	GP FILTER: 0.95	POPULATION: EUR
+	VERY IMPUTABLE:	27
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	7
+	NOT IMPUTABLE:	8
+	NA:	9
+-------------------------------------------------------------------------
+IMPUTATION METHOD: ScoreInvHap	CONDITION: NA	GP FILTER: NA	POPULATION: AFR
+	VERY IMPUTABLE:	6
+	QUITE IMPUTABLE:	4
+	BARELY IMPUTABLE:	9
+	NOT IMPUTABLE:	30
+	NA:	6
+-------------------------------------------------------------------------
+IMPUTATION METHOD: ScoreInvHap	CONDITION: NA	GP FILTER: NA	POPULATION: EAS
+	VERY IMPUTABLE:	7
+	QUITE IMPUTABLE:	1
+	BARELY IMPUTABLE:	12
+	NOT IMPUTABLE:	28
+	NA:	7
+-------------------------------------------------------------------------
+IMPUTATION METHOD: ScoreInvHap	CONDITION: NA	GP FILTER: NA	POPULATION: EUR
+	VERY IMPUTABLE:	9
+	QUITE IMPUTABLE:	5
+	BARELY IMPUTABLE:	16
+	NOT IMPUTABLE:	23
+	NA:	2
+-------------------------------------------------------------------------

@@ -1,0 +1,47 @@
+beagle.22Jul22.46e.jar (version 5.4)
+Copyright (C) 2014-2022 Brian L. Browning
+Enter "java -jar beagle.22Jul22.46e.jar" to list command line argument
+Start time: 11:05 AM CEST on 18 Apr 2024
+
+Command line: java -Xmx7960m -jar beagle.22Jul22.46e.jar
+  gt=/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/../VCFs/Inversion_Regions/Standard/HsInv0072/RegionFilled.vcf
+  out=/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/../VCFs/Inversion_Regions/Standard/HsInv0072/Output
+  map=/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/../VCFs/30X/Maps/plink.chrX.GRCh38.map
+  nthreads=20
+
+Reference samples:                    0
+Study     samples:                  515
+
+Window 1 [X:39941083-45892489]
+Study     markers:                2,886
+
+Burnin  iteration 1:           10 seconds
+Burnin  iteration 2:           5 seconds
+Burnin  iteration 3:           4 seconds
+
+Estimated ne:                  7933
+Estimated err:                 1.1e-03
+
+Phasing iteration 1:           1 second
+Phasing iteration 2:           1 second
+Phasing iteration 3:           1 second
+Phasing iteration 4:           1 second
+Phasing iteration 5:           1 second
+Phasing iteration 6:           1 second
+Phasing iteration 7:           1 second
+Phasing iteration 8:           1 second
+Phasing iteration 9:           1 second
+Phasing iteration 10:          1 second
+Phasing iteration 11:          1 second
+Phasing iteration 12:          1 second
+Low frequency phasing:         3 seconds
+
+Cumulative Statistics:
+
+Study     markers:                2,886
+
+Haplotype phasing time:        34 seconds
+Total time:                    41 seconds
+
+End time: 11:06 AM CEST on 18 Apr 2024
+beagle.22Jul22.46e.jar finished

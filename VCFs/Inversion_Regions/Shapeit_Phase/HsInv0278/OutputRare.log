@@ -1,0 +1,69 @@
+
+[SHAPEIT5] Phase_rare (phase rare variants onto a haplotype scaffold)
+  * Authors       : Simone RUBINACCI & Olivier DELANEAU, University of Lausanne
+  * Contact       : simone.rubinacci@unil.ch & olivier.delaneau@gmail.com
+  * Version       : 5.1.1 / commit = 990ed0d / release = 2023-05-08
+  * Run date      : 19/04/2024 - 11:40:23
+
+Files:
+  * Unphased data : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/../VCFs/Inversion_Regions/Shapeit_Phase/HsInv0278/RegionAnnotated.bcf]
+  * Scaffold data : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/../VCFs/Inversion_Regions/Shapeit_Phase/HsInv0278/RegionScaffold.bcf]
+  * Genetic Map   : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/../VCFs/30X/Maps/chr5.b38.gmap.gz]
+  * Output data   : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/../VCFs/Inversion_Regions/Shapeit_Phase/HsInv0278/RegionPhased.bcf]
+  * Output LOG    : [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/../VCFs/Inversion_Regions/Shapeit_Phase/HsInv0278/OutputRare.log]
+
+Parameters:
+  * Seed    : 15052011
+  * Threads : 5 threads
+  * PBWT    : [depth = 2,2 / modulo = 0.005 / mac = 2 / mdr = 0.1]
+  * HMM     : [Ne = 15000 / Recombination rates given by genetic map]
+
+Parsing specified genomic regions
+  * Scaffold region  [5:180895750-181303642]
+  * Input region  [5:180895750-181303642]
+
+Reading genotype data
+  * BCF scanning (0.04s)
+      + Variant sites: [#scaffold=1488 | #rare=3496 | #all=4984]
+      + 1488 variants found in both files [priority to scaffold]
+  * HAP allocation [#scaffold=1488 / #samples=513] (0.00s)
+  * Genotype set allocation [#rare=3496 / #samples=513] (0.00s)
+  * Plain VCF/BCF parsing (0.14s)
+      + Scaffold : [0/0=447988 0/1=206111 1/1=109245]
+      + Rare     : [0/0=1754302 0/1=35018 1/1=4128 ./.=0]
+
+Mapping Haploid samples
+  * PED file parsing [n=1599]
+  * #haploids=0 / #diploids=513
+  * #reset_hets=0 (-nan% of minor allele genotypes)
+
+Initializing sparse genotypes
+  * 0 missing genotypes imputed at monomorphic sites
+  * Genotype set transpose V2I (0.00s)
+
+Setting up genetic map
+  * GMAP parsing [n=215410] (0.23s)
+  * cM interpolation [s=322 / i=4662] (0.00s)
+  * Region length [407852 bp / 0.9 cM]
+  * HMM parameters [Ne=15000 / Error=0.0001]
+  * V2H transpose (0.00s)
+
+PBWT pass
+  * PBWT initialization [#eval=1488 / #select=137] (0.00s)
+  * IBD2 constraints [#inds=0 / #pairs=0] (0.03s)
+  * PBWT forward selection (0.08s)
+  * PBWT backward selection (0.07s)
+      + #states=156.81+/-61.70
+      + #collisions = 480972 / #pushes = 81395 / rate = 14.47%
+
+HMM computations
+  * Processing (0.97s)
+  * Genotype set transpose merge I2V [n=273] (0.00s)
+  * Solving summary:
+      + #Hets=35018 / Phased by HMM=34745, PED=0, SING=273
+      + #Miss=0 / Imputed by HMM=0, PED=0, MONO=0
+
+Finalization:
+  * BCF writing [Compressed / N=513 / L=4984] (0.24s)
+  * Indexing [/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/../VCFs/Inversion_Regions/Shapeit_Phase/HsInv0278/RegionPhased.bcf]
+  * Total running time = 1 seconds

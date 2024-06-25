@@ -1,0 +1,39 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --make-bed
+  --out /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_ScoreInvHap/Inputs/HsInv0113/Region_EUR
+  --vcf /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_ScoreInvHap/Inputs/HsInv0113/RegionMod.vcf
+
+Hostname: aftimo
+Working directory: /home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute
+Start time: Tue Apr 30 09:47:56 2024
+
+Random number seed: 1714463276
+31827 MB RAM detected; reserving 15913 MB for main workspace.
+--vcf:
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_ScoreInvHap/Inputs/HsInv0113/Region_EUR-temporary.bed
++
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_ScoreInvHap/Inputs/HsInv0113/Region_EUR-temporary.bim
++
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_ScoreInvHap/Inputs/HsInv0113/Region_EUR-temporary.fam
+written.
+2065 variants loaded from .bim file.
+36 people (0 males, 0 females, 36 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_ScoreInvHap/Inputs/HsInv0113/Region_EUR.nosex
+.
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 36 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is exactly 1.
+2065 variants and 36 people pass filters and QC.
+Note: No phenotypes present.
+--make-bed to
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_ScoreInvHap/Inputs/HsInv0113/Region_EUR.bed
++
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_ScoreInvHap/Inputs/HsInv0113/Region_EUR.bim
++
+/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute/Results_ScoreInvHap/Inputs/HsInv0113/Region_EUR.fam
+... done.
+
+End time: Tue Apr 30 09:47:56 2024
