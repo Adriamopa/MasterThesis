@@ -1,0 +1,14 @@
+The programs and packages used in this work can be found in requirements.txt
+
+The structure of this repository is the following:
+-Execute:
+
+-Programes:
+	Contains the directories and subdirecories in which the executable for the imputation and phasing softwares are located.
+	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	!!! The paths for the imputation and phasing softwares have to be added to ~/.bashrc the equivalent. !!!
+	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	Contains vcf2impute_gen.pl file, necessary to convert to .gen, used by Impute2. Original source: https://			mathgen.stats.ox.ac.uk/impute/impute_v2.html
+	
+-VCFs:
+	Contains the VCFs of the 1KGP 30X for the selected inversion surrounding regions, phased by Shapeit5, Beagle (Standard) and unphased. Each inversion folder contains at least the general VCF (Output.vcf), and the VCFs split by individuals belonging to AFR, EUR and EAS populations
