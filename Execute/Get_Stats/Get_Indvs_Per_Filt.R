@@ -14,7 +14,7 @@ filter <- input[4] # filters <- c(0.50, 0.70, 0.80, 0.90, 0.95)
 filt <- as.numeric(filter)
 wd <- getwd()
 #wd <- "/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute"
-invs <- readLines(paste0(wd,"/../VCFs/30X/Invs2Imp"))
+invs <- sort(readLines(paste0(wd,"/../VCFs/30X/Invs2Imp")))
 
 ## Declare Useful functions
 get_num_indivs <- function(ImpGT) {

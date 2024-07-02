@@ -24,8 +24,9 @@ condition <- "Standard"
 filter <- "0.90"
 filt <- as.numeric(filter)
 #wd <- getwd()
-wd <- "/home/aftimo/Documents/practiques/Documents_Elias/IntroMasterAdria/Execute"
+wd <- "/home/aftimo/Documents/practiques/Documents_Elias/MasterAdriaMompart/Execute"
 invs <- readLines(paste0(wd,"/../VCFs/30X/Invs2Imp"))
+sort(invs)
 ```
 ## Declare Useful functions
 ```{r}

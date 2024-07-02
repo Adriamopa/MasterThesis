@@ -23,7 +23,7 @@ library(ggcorrplot)
 library(GGally)
 library(comprehenr)
 library(dunn.test)
-#(DescTools)
+library(DescTools)
 library(viridis)
 library(RColorBrewer)
 library(scico)
@@ -46,10 +46,10 @@ Imp.Methods <- c("Beagle", "Impute2", "Impute5", "Minimac4", "ScoreInvHap")
 Phase.Methods <- c("BEAGLE_Phase", "Shapeit_Phase", "Unphased")
 
 # Filters
-Filts <- c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")
+Filts <- c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 
 # Get the imputed inversion names
-Inversions <- read.table(paste0(wd,'/../VCFs/30X/Invs2Imp'),col.names = "INV")
+Inversions <- read.table(paste0(wd,'/../VCFs/30X/Invs2Imp'),col.names = "INV") %>% arrange(INV)
 
 # Get information about the inversions (type: NH/NAHR, breakpoints...) This has inversions not studied in the analysis!!
 Inversion.Info <- read.csv(paste0(wd,'/../VCFs/30X/InvCoordenates_hg38_v1.csv'))
@@ -57,6 +57,7 @@ Inversion.Info <- read.csv(paste0(wd,'/../VCFs/30X/InvCoordenates_hg38_v1.csv'))
 # Get the imputation results for the inversions
 Imputation.Info <- read.csv(paste0(wd,"/Results_Stats/FullData_Imputation.txt"))
 colnames(Imputation.Info) <- gsub("Standard", "BEAGLE_Phase", colnames(Imputation.Info))
+Imputation.Info <- Imputation.Info %>% select(-matches("0.30"))
 
 # Get total number of individuals per inversion and population
 Indivs.Info <- read.csv(paste0(wd,"/Results_Stats/Inv_Inds.txt"),sep = "\t")
@@ -64,26 +65,26 @@ Indivs.Info <- read.csv(paste0(wd,"/Results_Stats/Inv_Inds.txt"),sep = "\t")
 # Get the number of individuals per filter for each inversion and population
 Invs.Indiv.Info <- read.csv(paste0(wd,"/Results_Stats/Indiv_per_Filt.txt"))
 colnames(Invs.Indiv.Info) <- gsub("Standard", "BEAGLE_Phase", colnames(Invs.Indiv.Info))
+Invs.Indiv.Info <- Invs.Indiv.Info %>% select(-matches("0.30"))
 
 # Get the inversion frequency per population
 AFR_Freq <- read.csv(paste0(wd,"/Results_Stats/Inversions_Freq_AFR.txt"), sep = "\t", header = FALSE, 
-                     col.names = c("INV", "Freq"))
+                     col.names = c("INV", "Freq")) %>% arrange(INV)
 EUR_Freq <- read.csv(paste0(wd,"/Results_Stats/Inversions_Freq_EUR.txt"), sep = "\t", header = FALSE,
-                     col.names = c("INV", "Freq"))
+                     col.names = c("INV", "Freq")) %>% arrange(INV)
 EAS_Freq <- read.csv(paste0(wd,"/Results_Stats/Inversions_Freq_EAS.txt"), sep = "\t", header = FALSE,
-                     col.names = c("INV", "Freq"))
+                     col.names = c("INV", "Freq")) %>% arrange(INV)
 
 
 Inv.Freq <- cbind(AFR_Freq, EUR_Freq[2], EAS_Freq[2])
 colnames(Inv.Freq) <- c("INV","AFR","EUR","EAS")
 
 AFR_MAF <- read.csv(paste0(wd,"/Results_Stats/MAF_Freq_AFR.txt"), sep = "\t", header = FALSE, 
-                     col.names = c("INV", "MAF"))
+                     col.names = c("INV", "MAF")) %>% arrange(INV)
 EUR_MAF <- read.csv(paste0(wd,"/Results_Stats/MAF_Freq_EUR.txt"), sep = "\t", header = FALSE,
-                     col.names = c("INV", "MAF"))
+                     col.names = c("INV", "MAF")) %>% arrange(INV)
 EAS_MAF <- read.csv(paste0(wd,"/Results_Stats/MAF_Freq_EAS.txt"), sep = "\t", header = FALSE,
-                     col.names = c("INV", "MAF"))
-
+                     col.names = c("INV", "MAF")) %>% arrange(INV)
 
 Inv.MAF <- cbind(AFR_MAF, EUR_MAF[2], EAS_MAF[2])
 colnames(Inv.MAF) <- c("INV","AFR","EUR","EAS")
@@ -120,7 +121,6 @@ table %>% kbl() %>%
 ## Transform the data to be able to perform the analysis
 ```{r}
 # Produce minor allelle count (MAC) objects 
-
 AFR_MAC <- data.frame("INV" = AFR_Freq$INV, "MAC" = round(Indivs.Info$AFR.Num.Samples * AFR_MAF$MAF * 2))
 EUR_MAC <- data.frame("INV" = EUR_Freq$INV, "MAC" = round(Indivs.Info$EUR.Num.Samples * EUR_MAF$MAF * 2))
 EAS_MAC <- data.frame("INV" = EAS_Freq$INV, "MAC" = round(Indivs.Info$EAS.Num.Samples * EAS_MAF$MAF * 2))
@@ -358,7 +358,7 @@ plot_count_true <- function(imp_method, condition = NULL, population, filter = N
   if (!is.null(filter)) {
     filters <- "No"
   } else {
-    filters <- c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")
+    filters <- c("0.00","0.50", "0.70", "0.80", "0.90", "0.95")
     }
   for (filter in filters) {
     temporal_df <- sel_df(Imputation.Info, imp_method = imp_method, condition = condition, pop = population, filter = filter)
@@ -400,19 +400,19 @@ plot_method_vs_indiv <- function(imp_method, condition, pop, plot = TRUE) {
   df.indivs.percentages <- cbind(df.indivs[1],df.indivs.percentages)
   df.invs <- sel_df(Imputation.Info, imp_method = imp_method, condition = condition, pop = pop, filter = "Mean")
   if (plot) {
-  print(ggplot(melt(df.invs[c(1:5),c(1:8)], id.vars = "INV"), aes(x = variable, y = value, group = INV, color = factor(INV))) +
+  print(ggplot(melt(df.invs[c(1:5),c(1:7)], id.vars = "INV"), aes(x = variable, y = value, group = INV, color = factor(INV))) +
   geom_line() +
-  labs(x = "GP Filter", y = expression(~r^2~""), title = "Inversion Imputability Using Different GP Filters") + scale_x_discrete(labels = c("0.00","0.30","0.50", "0.70", "0.80", "0.90", "0.95")))
+  labs(x = "GP Filter", y = expression(~r^2~""), title = "Inversion Imputability Using Different GP Filters") + scale_x_discrete(labels = c("0.00","0.50", "0.70", "0.80", "0.90", "0.95")))
 
-  print(ggplot(melt(df.indivs.percentages[c(1:5),c(1:8)], id.vars = "INV"), aes(x = variable, y = value, group = INV, color = factor(INV), ymin = 0)) +
+  print(ggplot(melt(df.indivs.percentages[c(1:5),c(1:7)], id.vars = "INV"), aes(x = variable, y = value, group = INV, color = factor(INV), ymin = 0)) +
   geom_line() +
-  labs(x = "GP Filter", y = "% Initial Indivs", title = "Loss of Individuals by Using Different GP Filters") + scale_x_discrete(labels = c("0.00","0.30","0.50", "0.70", "0.80", "0.90", "0.95")))
+  labs(x = "GP Filter", y = "% Initial Indivs", title = "Loss of Individuals by Using Different GP Filters") + scale_x_discrete(labels = c("0.00","0.50", "0.70", "0.80", "0.90", "0.95")))
   } else {
     return(list(df.indivs.percentages,df.invs))
   }
 }
 ### Example
-## plot_method_vs_indiv("Beagle", "BEAGLE_Phase", "EUR", plot = TRUE)
+plot_method_vs_indiv("Beagle", "BEAGLE_Phase", "EUR", plot = TRUE)
 
 
 check_loss <- function(imp.method, pop, filter) {
@@ -446,7 +446,7 @@ get_method_indvs_curve <- function(imp_method, condition, pop, plot = TRUE) {
             labs(x = "GP Filter", y = "Percentage", 
                  title = "Inversion Imputability vs Individuals Loss",
                  subtitle = paste0(imp_method, ", ",condition, " Phasing, ", pop, " Population")) +
-            scale_x_discrete(labels = c("0.00","0.30","0.50", "0.70", "0.80", "0.90", "0.95")) + 
+            scale_x_discrete(labels = c("0.00","0.50", "0.70", "0.80", "0.90", "0.95")) + 
             scale_color_manual(values = c("#F8766D","#00BFC4"),
                                labels = c("Remaining Individuals", "Inversion Imputability")) +
             theme(legend.title = element_blank()
@@ -456,8 +456,6 @@ get_method_indvs_curve <- function(imp_method, condition, pop, plot = TRUE) {
   return(summary_df2)
   }
 }
-Beagle_Loss <- check_loss("Beagle","EUR","0.50")
-EUR_Poli <- EUR_Info[EUR_Info$V2 == "Polymorphic",]$V1
 
 ## Plot in the same dataframe the invidivual loss and the gain of imputability (means),
 ## if type == all compare imputation methods, if type == population, compare populations
@@ -474,26 +472,26 @@ plot_joint_condition <- function(type, spec) {
       for (pop in pops) { 
         Poli <- get(paste0(pop,"_Info"))[get(paste0(pop,"_Info"))$V2 == "Polymorphic",]$V1
         Beagle_info <- get_method_indvs_curve("Beagle", condition, pop, plot = FALSE)
-        Beagle_info$Filter <- c(0.00,0.00,0.30,0.30,0.50,0.50,0.70,0.70,0.80,0.80,0.90,0.90,0.95,0.95)
+        Beagle_info$Filter <- c(0.00,0.00,0.50,0.50,0.70,0.70,0.80,0.80,0.90,0.90,0.95,0.95)
         Beagle_plot <- geom_line(data = Beagle_info, 
                          aes(x = Filter, y = value, ymin = 0, group = name, 
                              linetype = factor(name), color = "Beagle"), 
                          inherit.aes = FALSE)
         
         Impute2_info <- get_method_indvs_curve("Impute2", condition, pop, plot = FALSE)
-        Impute2_info$Filter <- c(0.00,0.00,0.30,0.30,0.50,0.50,0.70,0.70,0.80,0.80,0.90,0.90,0.95,0.95)
+        Impute2_info$Filter <- c(0.00,0.00,0.50,0.50,0.70,0.70,0.80,0.80,0.90,0.90,0.95,0.95)
         Impute2_plot <- geom_line(data = Impute2_info, 
                          aes(x = Filter, y = value, ymin = 0, group = name, 
                              linetype = factor(name), color = "Impute2"), 
                          inherit.aes = FALSE)
         Impute5_info <- get_method_indvs_curve("Impute5", condition, pop, plot = FALSE)
-        Impute5_info$Filter <- c(0.00,0.00,0.30,0.30,0.50,0.50,0.70,0.70,0.80,0.80,0.90,0.90,0.95,0.95)
+        Impute5_info$Filter <- c(0.00,0.00,0.50,0.50,0.70,0.70,0.80,0.80,0.90,0.90,0.95,0.95)
         Impute5_plot <- geom_line(data = Impute5_info, 
                          aes(x = Filter, y = value, ymin = 0, group = name, 
                              linetype = factor(name), color = "Impute5"), 
                          inherit.aes = FALSE)
         Minimac4_info <- get_method_indvs_curve("Minimac4", condition, pop, plot = FALSE)
-        Minimac4_info$Filter <- c(0.00,0.00,0.30,0.30,0.50,0.50,0.70,0.70,0.80,0.80,0.90,0.90,0.95,0.95)
+        Minimac4_info$Filter <- c(0.00,0.00,0.50,0.50,0.70,0.70,0.80,0.80,0.90,0.90,0.95,0.95)
         Minimac4_plot <- geom_line(data = Minimac4_info, 
                          aes(x = Filter, y = value, ymin = 0, group = name, 
                              linetype = factor(name), color = "Minimac4"), 
@@ -503,7 +501,7 @@ plot_joint_condition <- function(type, spec) {
                labs(x = "GP Filter", y = "Percentage", 
                     title = "Inversion Imputability vs Individuals Loss",
                     subtitle = paste0("All Methods, ", condition, " Phasing, ", pop, " Population")) +
-              scale_x_continuous(breaks = c(0.00, 0.30, 0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) +
+              scale_x_continuous(breaks = c(0.00, 0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")) +
               scale_color_manual(values = method_colors,
 #                                 labels = c("Beagle", "Impute2", "Impute5", "Minimac4"),
                                  name = c()) +
@@ -519,14 +517,13 @@ plot_joint_condition <- function(type, spec) {
         DF <-  data.frame(
           Method = c("Beagle", "Impute2", "Impute5", "Minimac4"),
           "0.00" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.00"))),length(intersect(Poli,check_loss("Impute2",pop,"0.00"))),length(intersect(Poli,check_loss("Impute5",pop,"0.00"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.00")))),
-          "0.30" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.30"))),length(intersect(Poli,check_loss("Impute2",pop,"0.30"))),length(intersect(Poli,check_loss("Impute5",pop,"0.30"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.30")))),
           "0.50" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.50"))),length(intersect(Poli,check_loss("Impute2",pop,"0.50"))),length(intersect(Poli,check_loss("Impute5",pop,"0.50"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.50")))),
           "0.70" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.70"))),length(intersect(Poli,check_loss("Impute2",pop,"0.70"))),length(intersect(Poli,check_loss("Impute5",pop,"0.70"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.70")))),
           "0.80" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.80"))),length(intersect(Poli,check_loss("Impute2",pop,"0.80"))),length(intersect(Poli,check_loss("Impute5",pop,"0.80"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.80")))),
           "0.90" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.90"))),length(intersect(Poli,check_loss("Impute2",pop,"0.90"))),length(intersect(Poli,check_loss("Impute5",pop,"0.90"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.90")))),
           "0.95" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.95"))),length(intersect(Poli,check_loss("Impute2",pop,"0.95"))),length(intersect(Poli,check_loss("Impute5",pop,"0.95"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.95"))))
           )
-        plot_list[[i+1]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) 
+        plot_list[[i+1]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00", "0.50", "0.70", "0.80", "0.90", "0.95")) 
         i <- i + 2
       }
     }
@@ -541,17 +538,17 @@ plot_joint_condition <- function(type, spec) {
         EUR_info <- get_method_indvs_curve(spec, condition, "EUR", plot = FALSE)
         EAS_info <- get_method_indvs_curve(spec, condition, "EAS", plot = FALSE)
         
-        AFR_info$Filter <- c("0.00","0.00","0.30","0.30","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
+        AFR_info$Filter <- c("0.00","0.00","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
         AFR_plot <- geom_line(data = AFR_info, 
                          aes(x = Filter, y = value, ymin = 0, group = name, 
                              linetype = factor(name), color = "AFR"), 
                          inherit.aes = FALSE)
-        EUR_info$Filter <- c("0.00","0.00","0.30","0.30","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
+        EUR_info$Filter <- c("0.00","0.00","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
         EUR_plot <- geom_line(data = EUR_info, 
                          aes(x = Filter, y = value, ymin = 0, group = name, 
                              linetype = factor(name), color = "EUR"), 
                          inherit.aes = FALSE)
-        EAS_info$Filter <- c("0.00","0.00","0.30","0.30","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
+        EAS_info$Filter <- c("0.00","0.00","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
         EAS_plot <- geom_line(data = EAS_info, 
                          aes(x = Filter, y = value, ymin = 0, group = name, 
                              linetype = factor(name), color = "EAS"), 
@@ -560,7 +557,7 @@ plot_joint_condition <- function(type, spec) {
                labs(x = "GP Filter", y = "Percentage", 
                     title = "Inversion Imputability vs Individuals Loss",
                     subtitle = paste0(spec, " Imputation, ", condition, " Phasing, All Populations")) +
-              scale_x_discrete(labels = c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) +
+              scale_x_discrete(labels = c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")) +
               scale_color_manual(values = pop_colors,
 #                                 labels = c("AFR", "EUR", "EAS"),
                                  name = "Population") +
@@ -580,17 +577,17 @@ plot_joint_condition <- function(type, spec) {
         EUR_info <- get_method_indvs_curve(spec, "Unphased", "EUR", plot = FALSE)
         EAS_info <- get_method_indvs_curve(spec, "Unphased", "EAS", plot = FALSE)
         
-        AFR_info$Filter <- c("0.00","0.00","0.30","0.30","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
+        AFR_info$Filter <- c("0.00","0.00","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
         AFR_plot <- geom_line(data = AFR_info, 
                          aes(x = Filter, y = value, ymin = 0, group = name, 
                              linetype = factor(name), color = "AFR"), 
                          inherit.aes = FALSE)
-        EUR_info$Filter <- c("0.00","0.00","0.30","0.30","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
+        EUR_info$Filter <- c("0.00","0.00","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
         EUR_plot <- geom_line(data = EUR_info, 
                          aes(x = Filter, y = value, ymin = 0, group = name, 
                              linetype = factor(name), color = "EUR"), 
                          inherit.aes = FALSE)
-        EAS_info$Filter <- c("0.00","0.00","0.30","0.30","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
+        EAS_info$Filter <- c("0.00","0.00","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
         EAS_plot <- geom_line(data = EAS_info, 
                          aes(x = Filter, y = value, ymin = 0, group = name, 
                              linetype = factor(name), color = "EAS"), 
@@ -599,7 +596,7 @@ plot_joint_condition <- function(type, spec) {
                labs(x = "GP Filter", y = "Percentage", 
                     title = "Inversion Imputability vs Individuals Loss",
                     subtitle = paste0(spec, " Imputation, Unphased Phasing, All Populations")) +
-              scale_x_discrete(labels = c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) +
+              scale_x_discrete(labels = c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")) +
               scale_color_manual(values = pop_colors,
 #                                 labels = c("AFR", "EUR", "EAS"),
                                  name = "Population") +
@@ -624,12 +621,12 @@ plot_joint_condition <- function(type, spec) {
         Standard_info <- get_method_indvs_curve(spec, "BEAGLE_Phase", pop, plot = FALSE)
         Shapeit_Phase_info <- get_method_indvs_curve(spec, "Shapeit_Phase", pop, plot = FALSE)
             
-        Standard_info$Filter <- c("0.00","0.00","0.30","0.30","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
+        Standard_info$Filter <- c("0.00","0.00","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
         Standard_plot <- geom_line(data = Standard_info, 
                            aes(x = Filter, y = value, ymin = 0, group = name, 
                                linetype = factor(name), color = "BEAGLE_Phase"), 
                            inherit.aes = FALSE)
-        Shapeit_Phase_info$Filter <- c("0.00","0.00","0.30","0.30","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
+        Shapeit_Phase_info$Filter <- c("0.00","0.00","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
         Shapeit_Phase_plot <- geom_line(data = Shapeit_Phase_info, 
                            aes(x = Filter, y = value, ymin = 0, group = name, 
                                linetype = factor(name), color = "Shapeit_Phase"), 
@@ -638,7 +635,7 @@ plot_joint_condition <- function(type, spec) {
             
             if (spec == "Impute2") {
               Unphased_info <- get_method_indvs_curve(spec, "Unphased", pop, plot = FALSE)
-              Unphased_info$Filter <- c("0.00","0.00","0.30","0.30","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
+              Unphased_info$Filter <- c("0.00","0.00","0.50","0.50","0.70","0.70","0.80","0.80","0.90","0.90","0.95","0.95")
               Unphased_plot <- geom_line(data = Unphased_info, 
                            aes(x = Filter, y = value, ymin = 0, group = name, 
                                linetype = factor(name), color = "Unphased"), 
@@ -648,7 +645,7 @@ plot_joint_condition <- function(type, spec) {
         conditions_plot <- conditions_plot + labs(x = "GP Filter", y = "Percentage", 
                       title = "Inversion Imputability vs Individuals Loss",
                       subtitle = paste0(spec, " Imputation, All Phasings, ", pop)) +
-                scale_x_discrete(labels = c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) +
+                scale_x_discrete(labels = c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")) +
                 scale_color_manual(values = condition_colors,
 #                                   labels = c("Standard", "Shapeit_Phase", "Unphased"),
                                    name = "Population") +
@@ -776,7 +773,7 @@ get_bestest <- function(pop, frequency) {
         next
       }
       Top$Freq[i] <- freq
-      for (j in 2:8) {
+      for (j in 2:7) {
         RIC <- df.indivs.perc[i, j]
         if (RIC < 66) {
           break
@@ -874,7 +871,7 @@ check_imp <- function(method, pop, frequency) {
         next
       }
       Top$Freq[i] <- freq
-      for (j in 2:8) {
+      for (j in 2:7) {
         RIC <- df.indivs.perc[i, j]
         if (RIC < 66) {
           break
@@ -938,7 +935,6 @@ InvNA <- function(df) {
     Beagle_inf <- plot_method_vs_indiv("Beagle", "BEAGLE_Phase", "AFR", plot = FALSE)[[2]]
     Beagle_info <- Beagle_inf %>% 
           mutate(Mean.Beagle.BEAGLE_Phase.0.00.AFR = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.00"), Mean.Beagle.BEAGLE_Phase.0.00.AFR, NA),
-                 Mean.Beagle.BEAGLE_Phase.0.30.AFR = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.30"), Mean.Beagle.BEAGLE_Phase.0.30.AFR, NA),
                  Mean.Beagle.BEAGLE_Phase.0.50.AFR = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.50"), Mean.Beagle.BEAGLE_Phase.0.50.AFR, NA),
                  Mean.Beagle.BEAGLE_Phase.0.70.AFR = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.70"), Mean.Beagle.BEAGLE_Phase.0.70.AFR, NA),
                  Mean.Beagle.BEAGLE_Phase.0.80.AFR = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.80"), Mean.Beagle.BEAGLE_Phase.0.80.AFR, NA),
@@ -947,7 +943,7 @@ InvNA <- function(df) {
     
     Beagle_info <- colMeans(Beagle_info[-1], na.rm = TRUE) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Beagle_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Beagle_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Beagle_info) <- c("Filter", "Imp")
         Beagle_plot <- geom_line(data = Beagle_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 1,  color = "Beagle"), 
@@ -956,7 +952,6 @@ InvNA <- function(df) {
         Impute2_inf <- plot_method_vs_indiv("Impute2", "BEAGLE_Phase", "AFR", plot = FALSE)[[2]]
     Impute2_info <- Impute2_inf %>% 
           mutate(Mean.Impute2.BEAGLE_Phase.0.00.AFR = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.00"), Mean.Impute2.BEAGLE_Phase.0.00.AFR, NA),
-                 Mean.Impute2.BEAGLE_Phase.0.30.AFR = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.30"), Mean.Impute2.BEAGLE_Phase.0.30.AFR, NA),
                  Mean.Impute2.BEAGLE_Phase.0.50.AFR = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.50"), Mean.Impute2.BEAGLE_Phase.0.50.AFR, NA),
                  Mean.Impute2.BEAGLE_Phase.0.70.AFR = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.70"), Mean.Impute2.BEAGLE_Phase.0.70.AFR, NA),
                  Mean.Impute2.BEAGLE_Phase.0.80.AFR = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.80"), Mean.Impute2.BEAGLE_Phase.0.80.AFR, NA),
@@ -965,7 +960,7 @@ InvNA <- function(df) {
 
     Impute2_info <- colMeans(Impute2_info[-1], na.rm = TRUE) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute2_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute2_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute2_info) <- c("Filter", "Imp")
         Impute2_plot <- geom_line(data = Impute2_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 1,  color = "Impute2"), 
@@ -974,7 +969,6 @@ InvNA <- function(df) {
         Impute5_inf <- plot_method_vs_indiv("Impute5", "BEAGLE_Phase", "AFR", plot = FALSE)[[2]]
     Impute5_info <- Impute5_inf %>% 
           mutate(Mean.Impute5.BEAGLE_Phase.0.00.AFR = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.00"), Mean.Impute5.BEAGLE_Phase.0.00.AFR, NA),
-                 Mean.Impute5.BEAGLE_Phase.0.30.AFR = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.30"), Mean.Impute5.BEAGLE_Phase.0.30.AFR, NA),
                  Mean.Impute5.BEAGLE_Phase.0.50.AFR = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.50"), Mean.Impute5.BEAGLE_Phase.0.50.AFR, NA),
                  Mean.Impute5.BEAGLE_Phase.0.70.AFR = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.70"), Mean.Impute5.BEAGLE_Phase.0.70.AFR, NA),
                  Mean.Impute5.BEAGLE_Phase.0.80.AFR = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.80"), Mean.Impute5.BEAGLE_Phase.0.80.AFR, NA),
@@ -983,7 +977,7 @@ InvNA <- function(df) {
     
     Impute5_info <- colMeans(Impute5_info[-1], na.rm = TRUE) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute5_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute5_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute5_info) <- c("Filter","Imp")
         Impute5_plot <- geom_line(data = Impute5_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 1,  color = "Impute5"), 
@@ -992,7 +986,6 @@ InvNA <- function(df) {
         Minimac4_inf <- plot_method_vs_indiv("Minimac4", "BEAGLE_Phase", "AFR", plot = FALSE)[[2]]
     Minimac4_info <- Minimac4_inf %>% 
           mutate(Mean.Minimac4.BEAGLE_Phase.0.00.AFR = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.00"), Mean.Minimac4.BEAGLE_Phase.0.00.AFR, NA),
-                 Mean.Minimac4.BEAGLE_Phase.0.30.AFR = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.30"), Mean.Minimac4.BEAGLE_Phase.0.30.AFR, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.50.AFR = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.50"), Mean.Minimac4.BEAGLE_Phase.0.50.AFR, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.70.AFR = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.70"), Mean.Minimac4.BEAGLE_Phase.0.70.AFR, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.80.AFR = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.80"), Mean.Minimac4.BEAGLE_Phase.0.80.AFR, NA),
@@ -1001,7 +994,7 @@ InvNA <- function(df) {
     
     Minimac4_info <- colMeans(Minimac4_info[-1], na.rm = TRUE) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Minimac4_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Minimac4_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Minimac4_info) <- c("Filter", "Imp")
         Minimac4_plot <- geom_line(data = Minimac4_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 1,  color = "Minimac4"), 
@@ -1011,7 +1004,7 @@ InvNA <- function(df) {
                labs(x = "GP Filter", y = expression("Imputability ("~r^2~")"), 
                     title = "Inversion Imputability with Inversions Filtered",
                     subtitle = paste0("All Methods, ", "BEAGLE_Phase Phasing AFR Population")) +
-              scale_x_continuous(breaks = c(0.00, 0.30, 0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) +
+              scale_x_continuous(breaks = c(0.00, 0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")) +
               scale_color_manual(values = method_colors,
 #                                 labels = c("Beagle", "Impute2", "Impute5", "Minimac4"),
                                  name = c()) +
@@ -1029,29 +1022,16 @@ InvNA <- function(df) {
         DF <-  data.frame(
           Method = c("Beagle", "Impute2", "Impute5", "Minimac4"),
           "0.00" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","AFR","0.00"),Beagle_list[[1]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","AFR","0.00"),Impute2_list[[1]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","AFR","0.00"),Impute5_list[[1]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","AFR","0.00"),Minimac4_list[[1]]$INV)))),
-          "0.30" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","AFR","0.30"),Beagle_list[[2]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","AFR","0.30"),Impute2_list[[2]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","AFR","0.30"),Impute5_list[[2]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","AFR","0.30"),Minimac4_list[[2]]$INV)))),
           "0.50" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","AFR","0.50"),Beagle_list[[3]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","AFR","0.50"),Impute2_list[[3]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","AFR","0.50"),Impute5_list[[3]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","AFR","0.50"),Minimac4_list[[3]]$INV)))),
           "0.70" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","AFR","0.70"),Beagle_list[[4]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","AFR","0.70"),Impute2_list[[4]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","AFR","0.70"),Impute5_list[[4]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","AFR","0.70"),Minimac4_list[[4]]$INV)))),
           "0.80" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","AFR","0.80"),Beagle_list[[5]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","AFR","0.80"),Impute2_list[[5]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","AFR","0.80"),Impute5_list[[5]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","AFR","0.80"),Minimac4_list[[5]]$INV)))),
           "0.90" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","AFR","0.90"),Beagle_list[[6]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","AFR","0.90"),Impute2_list[[6]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","AFR","0.90"),Impute5_list[[6]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","AFR","0.90"),Minimac4_list[[6]]$INV)))),
           "0.95" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","AFR","0.95"),Beagle_list[[7]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","AFR","0.95"),Impute2_list[[7]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","AFR","0.95"),Impute5_list[[7]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","AFR","0.95"),Minimac4_list[[7]]$INV)))))
-        plot_list[[2]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) 
-        # DF <-  data.frame(
-        #   Method = c("Beagle", "Impute2", "Impute5", "Minimac4"),
-        #   "0.00" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.00"))),length(intersect(Poli,check_loss("Impute2",pop,"0.00"))),length(intersect(Poli,check_loss("Impute5",pop,"0.00"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.00")))),
-        #   "0.30" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.30"))),length(intersect(Poli,check_loss("Impute2",pop,"0.30"))),length(intersect(Poli,check_loss("Impute5",pop,"0.30"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.30")))),
-        #   "0.50" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.50"))),length(intersect(Poli,check_loss("Impute2",pop,"0.50"))),length(intersect(Poli,check_loss("Impute5",pop,"0.50"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.50")))),
-        #   "0.70" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.70"))),length(intersect(Poli,check_loss("Impute2",pop,"0.70"))),length(intersect(Poli,check_loss("Impute5",pop,"0.70"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.70")))),
-        #   "0.80" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.80"))),length(intersect(Poli,check_loss("Impute2",pop,"0.80"))),length(intersect(Poli,check_loss("Impute5",pop,"0.80"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.80")))),
-        #   "0.90" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.90"))),length(intersect(Poli,check_loss("Impute2",pop,"0.90"))),length(intersect(Poli,check_loss("Impute5",pop,"0.90"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.90")))),
-        #   "0.95" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.95"))),length(intersect(Poli,check_loss("Impute2",pop,"0.95"))),length(intersect(Poli,check_loss("Impute5",pop,"0.95"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.95"))))
-        #   )
-        # plot_list[[i+1]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) 
-        # i <- i + 2
+        plot_list[[2]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")) 
+
             Beagle_inf <- plot_method_vs_indiv("Beagle", "BEAGLE_Phase", "EUR", plot = FALSE)[[2]]
    Beagle_info <- Beagle_inf %>% 
           mutate(Mean.Beagle.BEAGLE_Phase.0.00.EUR = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.00"), Mean.Beagle.BEAGLE_Phase.0.00.EUR, NA),
-                 Mean.Beagle.BEAGLE_Phase.0.30.EUR = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.30"), Mean.Beagle.BEAGLE_Phase.0.30.EUR, NA),
                  Mean.Beagle.BEAGLE_Phase.0.50.EUR = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.50"), Mean.Beagle.BEAGLE_Phase.0.50.EUR, NA),
                  Mean.Beagle.BEAGLE_Phase.0.70.EUR = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.70"), Mean.Beagle.BEAGLE_Phase.0.70.EUR, NA),
                  Mean.Beagle.BEAGLE_Phase.0.80.EUR = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.80"), Mean.Beagle.BEAGLE_Phase.0.80.EUR, NA),
@@ -1060,7 +1040,7 @@ InvNA <- function(df) {
     
     Beagle_info <- colMeans(Beagle_info[-1], na.rm = TRUE) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Beagle_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Beagle_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Beagle_info) <- c("Filter","Imp")
         Beagle_plot <- geom_line(data = Beagle_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 1,  color = "Beagle"), 
@@ -1069,7 +1049,6 @@ InvNA <- function(df) {
         Impute2_inf <- plot_method_vs_indiv("Impute2", "BEAGLE_Phase", "EUR", plot = FALSE)[[2]]
     Impute2_info <- Impute2_inf %>% 
           mutate(Mean.Impute2.BEAGLE_Phase.0.00.EUR = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.00"), Mean.Impute2.BEAGLE_Phase.0.00.EUR, NA),
-                 Mean.Impute2.BEAGLE_Phase.0.30.EUR = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.30"), Mean.Impute2.BEAGLE_Phase.0.30.EUR, NA),
                  Mean.Impute2.BEAGLE_Phase.0.50.EUR = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.50"), Mean.Impute2.BEAGLE_Phase.0.50.EUR, NA),
                  Mean.Impute2.BEAGLE_Phase.0.70.EUR = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.70"), Mean.Impute2.BEAGLE_Phase.0.70.EUR, NA),
                  Mean.Impute2.BEAGLE_Phase.0.80.EUR = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.80"), Mean.Impute2.BEAGLE_Phase.0.80.EUR, NA),
@@ -1078,7 +1057,7 @@ InvNA <- function(df) {
     
     Impute2_info <- colMeans(Impute2_info[-1], na.rm = TRUE) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute2_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute2_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute2_info) <- c("Filter", "Imp")
         Impute2_plot <- geom_line(data = Impute2_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 1,  color = "Impute2"), 
@@ -1087,7 +1066,6 @@ InvNA <- function(df) {
         Impute5_inf <- plot_method_vs_indiv("Impute5", "BEAGLE_Phase", "EUR", plot = FALSE)[[2]]
     Impute5_info <- Impute5_inf %>% 
           mutate(Mean.Impute5.BEAGLE_Phase.0.00.EUR = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.00"), Mean.Impute5.BEAGLE_Phase.0.00.EUR, NA),
-                 Mean.Impute5.BEAGLE_Phase.0.30.EUR = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.30"), Mean.Impute5.BEAGLE_Phase.0.30.EUR, NA),
                  Mean.Impute5.BEAGLE_Phase.0.50.EUR = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.50"), Mean.Impute5.BEAGLE_Phase.0.50.EUR, NA),
                  Mean.Impute5.BEAGLE_Phase.0.70.EUR = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.70"), Mean.Impute5.BEAGLE_Phase.0.70.EUR, NA),
                  Mean.Impute5.BEAGLE_Phase.0.80.EUR = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.80"), Mean.Impute5.BEAGLE_Phase.0.80.EUR, NA),
@@ -1096,7 +1074,7 @@ InvNA <- function(df) {
     
     Impute5_info <- colMeans(Impute5_info[-1], na.rm = TRUE) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute5_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute5_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute5_info) <- c("Filter", "Imp")
         Impute5_plot <- geom_line(data = Impute5_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 1,  color = "Impute5"), 
@@ -1105,7 +1083,6 @@ InvNA <- function(df) {
         Minimac4_inf <- plot_method_vs_indiv("Minimac4", "BEAGLE_Phase", "EUR", plot = FALSE)[[2]]
     Minimac4_info <- Minimac4_inf %>% 
          mutate(Mean.Minimac4.BEAGLE_Phase.0.00.EUR = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.00"), Mean.Minimac4.BEAGLE_Phase.0.00.EUR, NA),
-                 Mean.Minimac4.BEAGLE_Phase.0.30.EUR = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.30"), Mean.Minimac4.BEAGLE_Phase.0.30.EUR, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.50.EUR = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.50"), Mean.Minimac4.BEAGLE_Phase.0.50.EUR, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.70.EUR = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.70"), Mean.Minimac4.BEAGLE_Phase.0.70.EUR, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.80.EUR = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.80"), Mean.Minimac4.BEAGLE_Phase.0.80.EUR, NA),
@@ -1114,7 +1091,7 @@ InvNA <- function(df) {
     
     Minimac4_info <- colMeans(Minimac4_info[-1], na.rm = TRUE) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Minimac4_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Minimac4_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Minimac4_info) <- c("Filter", "Imp")
         Minimac4_plot <- geom_line(data = Minimac4_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 1,  color = "Minimac4"), 
@@ -1124,7 +1101,7 @@ InvNA <- function(df) {
                labs(x = "GP Filter", y = expression("Imputability ("~r^2~")"), 
                     title = "Inversion Imputability with Inversions Filtered",
                     subtitle = paste0("All Methods, ", "BEAGLE_Phase Phasing EUR Population")) +
-              scale_x_continuous(breaks = c(0.00, 0.30, 0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) +
+              scale_x_continuous(breaks = c(0.00,  0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")) +
               scale_color_manual(values = method_colors,
 #                                 labels = c("Beagle", "Impute2", "Impute5", "Minimac4"),
                                  name = c()) +
@@ -1143,19 +1120,17 @@ InvNA <- function(df) {
         DF <-  data.frame(
           Method = c("Beagle", "Impute2", "Impute5", "Minimac4"),
           "0.00" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","EUR","0.00"),Beagle_list[[1]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","EUR","0.00"),Impute2_list[[1]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","EUR","0.00"),Impute5_list[[1]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","EUR","0.00"),Minimac4_list[[1]]$INV)))),
-          "0.30" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","EUR","0.30"),Beagle_list[[2]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","EUR","0.30"),Impute2_list[[2]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","EUR","0.30"),Impute5_list[[2]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","EUR","0.30"),Minimac4_list[[2]]$INV)))),
           "0.50" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","EUR","0.50"),Beagle_list[[3]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","EUR","0.50"),Impute2_list[[3]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","EUR","0.50"),Impute5_list[[3]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","EUR","0.50"),Minimac4_list[[3]]$INV)))),
           "0.70" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","EUR","0.70"),Beagle_list[[4]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","EUR","0.70"),Impute2_list[[4]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","EUR","0.70"),Impute5_list[[4]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","EUR","0.70"),Minimac4_list[[4]]$INV)))),
           "0.80" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","EUR","0.80"),Beagle_list[[5]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","EUR","0.80"),Impute2_list[[5]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","EUR","0.80"),Impute5_list[[5]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","EUR","0.80"),Minimac4_list[[5]]$INV)))),
           "0.90" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","EUR","0.90"),Beagle_list[[6]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","EUR","0.90"),Impute2_list[[6]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","EUR","0.90"),Impute5_list[[6]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","EUR","0.90"),Minimac4_list[[6]]$INV)))),
           "0.95" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","EUR","0.95"),Beagle_list[[7]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","EUR","0.95"),Impute2_list[[7]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","EUR","0.95"),Impute5_list[[7]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","EUR","0.95"),Minimac4_list[[7]]$INV)))))
-        plot_list[[4]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95"))         
+        plot_list[[4]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00",  "0.50", "0.70", "0.80", "0.90", "0.95"))         
         
         
             Beagle_inf <- plot_method_vs_indiv("Beagle", "BEAGLE_Phase", "EAS", plot = FALSE)[[2]]
     Beagle_info <- Beagle_inf %>% 
          mutate(Mean.Beagle.BEAGLE_Phase.0.00.EAS = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.00"), Mean.Beagle.BEAGLE_Phase.0.00.EAS, NA),
-                 Mean.Beagle.BEAGLE_Phase.0.30.EAS = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.30"), Mean.Beagle.BEAGLE_Phase.0.30.EAS, NA),
                  Mean.Beagle.BEAGLE_Phase.0.50.EAS = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.50"), Mean.Beagle.BEAGLE_Phase.0.50.EAS, NA),
                  Mean.Beagle.BEAGLE_Phase.0.70.EAS = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.70"), Mean.Beagle.BEAGLE_Phase.0.70.EAS, NA),
                  Mean.Beagle.BEAGLE_Phase.0.80.EAS = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.80"), Mean.Beagle.BEAGLE_Phase.0.80.EAS, NA),
@@ -1163,7 +1138,7 @@ InvNA <- function(df) {
                  Mean.Beagle.BEAGLE_Phase.0.95.EAS = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.95"), Mean.Beagle.BEAGLE_Phase.0.95.EAS, NA))
     Beagle_info <- colMeans(Beagle_info[-1], na.rm = TRUE) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Beagle_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Beagle_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Beagle_info) <- c("Filter","Imp")
         Beagle_plot <- geom_line(data = Beagle_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 1,  color = "Beagle"), 
@@ -1172,7 +1147,6 @@ InvNA <- function(df) {
         Impute2_inf <- plot_method_vs_indiv("Impute2", "BEAGLE_Phase", "EAS", plot = FALSE)[[2]]
     Impute2_info <- Impute2_inf %>% 
           mutate(Mean.Impute2.BEAGLE_Phase.0.00.EAS = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.00"), Mean.Impute2.BEAGLE_Phase.0.00.EAS, NA),
-                 Mean.Impute2.BEAGLE_Phase.0.30.EAS = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.30"), Mean.Impute2.BEAGLE_Phase.0.30.EAS, NA),
                  Mean.Impute2.BEAGLE_Phase.0.50.EAS = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.50"), Mean.Impute2.BEAGLE_Phase.0.50.EAS, NA),
                  Mean.Impute2.BEAGLE_Phase.0.70.EAS = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.70"), Mean.Impute2.BEAGLE_Phase.0.70.EAS, NA),
                  Mean.Impute2.BEAGLE_Phase.0.80.EAS = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.80"), Mean.Impute2.BEAGLE_Phase.0.80.EAS, NA),
@@ -1180,7 +1154,7 @@ InvNA <- function(df) {
                  Mean.Impute2.BEAGLE_Phase.0.95.EAS = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.95"), Mean.Impute2.BEAGLE_Phase.0.95.EAS, NA))
     Impute2_info <- colMeans(Impute2_info[-1], na.rm = TRUE) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute2_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute2_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute2_info) <- c("Filter", "Imp")
         Impute2_plot <- geom_line(data = Impute2_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 1,  color = "Impute2"), 
@@ -1189,7 +1163,6 @@ InvNA <- function(df) {
         Impute5_inf <- plot_method_vs_indiv("Impute5", "BEAGLE_Phase", "EAS", plot = FALSE)[[2]]
     Impute5_info <- Impute5_inf %>% 
           mutate(Mean.Impute5.BEAGLE_Phase.0.00.EAS = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.00"), Mean.Impute5.BEAGLE_Phase.0.00.EAS, NA),
-                 Mean.Impute5.BEAGLE_Phase.0.30.EAS = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.30"), Mean.Impute5.BEAGLE_Phase.0.30.EAS, NA),
                  Mean.Impute5.BEAGLE_Phase.0.50.EAS = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.50"), Mean.Impute5.BEAGLE_Phase.0.50.EAS, NA),
                  Mean.Impute5.BEAGLE_Phase.0.70.EAS = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.70"), Mean.Impute5.BEAGLE_Phase.0.70.EAS, NA),
                  Mean.Impute5.BEAGLE_Phase.0.80.EAS = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.80"), Mean.Impute5.BEAGLE_Phase.0.80.EAS, NA),
@@ -1198,7 +1171,7 @@ InvNA <- function(df) {
     
     Impute5_info <- colMeans(Impute5_info[-1], na.rm = TRUE) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute5_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute5_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute5_info) <- c("Filter","Imp")
         Impute5_plot <- geom_line(data = Impute5_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 1,  color = "Impute5"), 
@@ -1207,7 +1180,6 @@ InvNA <- function(df) {
         Minimac4_inf <- plot_method_vs_indiv("Minimac4", "BEAGLE_Phase", "EAS", plot = FALSE)[[2]]
     Minimac4_info <- Minimac4_inf %>% 
           mutate(Mean.Minimac4.BEAGLE_Phase.0.00.EAS = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.00"), Mean.Minimac4.BEAGLE_Phase.0.00.EAS, NA),
-                 Mean.Minimac4.BEAGLE_Phase.0.30.EAS = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.30"), Mean.Minimac4.BEAGLE_Phase.0.30.EAS, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.50.EAS = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.50"), Mean.Minimac4.BEAGLE_Phase.0.50.EAS, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.70.EAS = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.70"), Mean.Minimac4.BEAGLE_Phase.0.70.EAS, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.80.EAS = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.80"), Mean.Minimac4.BEAGLE_Phase.0.80.EAS, NA),
@@ -1216,7 +1188,7 @@ InvNA <- function(df) {
     
     Minimac4_info <- colMeans(Minimac4_info[-1], na.rm = TRUE) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Minimac4_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Minimac4_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Minimac4_info) <- c("Filter", "Imp")
         Minimac4_plot <- geom_line(data = Minimac4_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 1,  color = "Minimac4"), 
@@ -1226,7 +1198,7 @@ InvNA <- function(df) {
                labs(x = "GP Filter", y = expression("Imputability ("~r^2~")"), 
                     title = "Inversion Imputability with Inversions Filtered",
                     subtitle = paste0("All Methods, ", "BEAGLE_Phase Phasing EAS Population")) +
-              scale_x_continuous(breaks = c(0.00, 0.30, 0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) +
+              scale_x_continuous(breaks = c(0.00,  0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")) +
               scale_color_manual(values = method_colors,
 #                                 labels = c("Beagle", "Impute2", "Impute5", "Minimac4"),
                                  name = c()) +
@@ -1245,13 +1217,12 @@ InvNA <- function(df) {
         DF <-  data.frame(
           Method = c("Beagle", "Impute2", "Impute5", "Minimac4"),
           "0.00" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","EAS","0.00"),Beagle_list[[1]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","EAS","0.00"),Impute2_list[[1]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","EAS","0.00"),Impute5_list[[1]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","EAS","0.00"),Minimac4_list[[1]]$INV)))),
-          "0.30" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","EAS","0.30"),Beagle_list[[2]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","EAS","0.30"),Impute2_list[[2]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","EAS","0.30"),Impute5_list[[2]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","EAS","0.30"),Minimac4_list[[2]]$INV)))),
           "0.50" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","EAS","0.50"),Beagle_list[[3]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","EAS","0.50"),Impute2_list[[3]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","EAS","0.50"),Impute5_list[[3]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","EAS","0.50"),Minimac4_list[[3]]$INV)))),
           "0.70" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","EAS","0.70"),Beagle_list[[4]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","EAS","0.70"),Impute2_list[[4]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","EAS","0.70"),Impute5_list[[4]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","EAS","0.70"),Minimac4_list[[4]]$INV)))),
           "0.80" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","EAS","0.80"),Beagle_list[[5]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","EAS","0.80"),Impute2_list[[5]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","EAS","0.80"),Impute5_list[[5]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","EAS","0.80"),Minimac4_list[[5]]$INV)))),
           "0.90" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","EAS","0.90"),Beagle_list[[6]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","EAS","0.90"),Impute2_list[[6]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","EAS","0.90"),Impute5_list[[6]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","EAS","0.90"),Minimac4_list[[6]]$INV)))),
           "0.95" = c(length(Reduce(intersect, list(Poli,check_loss("Beagle","EAS","0.95"),Beagle_list[[7]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute2","EAS","0.95"),Impute2_list[[7]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Impute5","EAS","0.95"),Impute5_list[[7]]$INV))),length(Reduce(intersect, list(Poli,check_loss("Minimac4","EAS","0.95"),Minimac4_list[[7]]$INV)))))
-        plot_list[[6]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) 
+        plot_list[[6]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")) 
 ```
 
 
@@ -1269,7 +1240,6 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     Beagle_inf <- plot_method_vs_indiv("Beagle", "BEAGLE_Phase", "AFR", plot = FALSE)[[2]]
     Beagle_info <- Beagle_inf %>% 
           mutate(Mean.Beagle.BEAGLE_Phase.0.00.AFR = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.00"), Mean.Beagle.BEAGLE_Phase.0.00.AFR, NA),
-                 Mean.Beagle.BEAGLE_Phase.0.30.AFR = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.30"), Mean.Beagle.BEAGLE_Phase.0.30.AFR, NA),
                  Mean.Beagle.BEAGLE_Phase.0.50.AFR = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.50"), Mean.Beagle.BEAGLE_Phase.0.50.AFR, NA),
                  Mean.Beagle.BEAGLE_Phase.0.70.AFR = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.70"), Mean.Beagle.BEAGLE_Phase.0.70.AFR, NA),
                  Mean.Beagle.BEAGLE_Phase.0.80.AFR = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.80"), Mean.Beagle.BEAGLE_Phase.0.80.AFR, NA),
@@ -1278,7 +1248,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     
     Beagle_info <- apply(Beagle_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Beagle_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Beagle_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Beagle_info) <- c("Filter", "Imp")
         Beagle_plot <- geom_line(data = Beagle_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Beagle"), 
@@ -1287,7 +1257,6 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
         Impute2_inf <- plot_method_vs_indiv("Impute2", "BEAGLE_Phase", "AFR", plot = FALSE)[[2]]
     Impute2_info <- Impute2_inf %>% 
           mutate(Mean.Impute2.BEAGLE_Phase.0.00.AFR = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.00"), Mean.Impute2.BEAGLE_Phase.0.00.AFR, NA),
-                 Mean.Impute2.BEAGLE_Phase.0.30.AFR = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.30"), Mean.Impute2.BEAGLE_Phase.0.30.AFR, NA),
                  Mean.Impute2.BEAGLE_Phase.0.50.AFR = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.50"), Mean.Impute2.BEAGLE_Phase.0.50.AFR, NA),
                  Mean.Impute2.BEAGLE_Phase.0.70.AFR = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.70"), Mean.Impute2.BEAGLE_Phase.0.70.AFR, NA),
                  Mean.Impute2.BEAGLE_Phase.0.80.AFR = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.80"), Mean.Impute2.BEAGLE_Phase.0.80.AFR, NA),
@@ -1296,7 +1265,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
 
     Impute2_info <- apply(Impute2_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute2_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute2_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute2_info) <- c("Filter", "Imp")
         Impute2_plot <- geom_line(data = Impute2_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Impute2"), 
@@ -1305,7 +1274,6 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
         Impute5_inf <- plot_method_vs_indiv("Impute5", "BEAGLE_Phase", "AFR", plot = FALSE)[[2]]
     Impute5_info <- Impute5_inf %>% 
           mutate(Mean.Impute5.BEAGLE_Phase.0.00.AFR = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.00"), Mean.Impute5.BEAGLE_Phase.0.00.AFR, NA),
-                 Mean.Impute5.BEAGLE_Phase.0.30.AFR = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.30"), Mean.Impute5.BEAGLE_Phase.0.30.AFR, NA),
                  Mean.Impute5.BEAGLE_Phase.0.50.AFR = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.50"), Mean.Impute5.BEAGLE_Phase.0.50.AFR, NA),
                  Mean.Impute5.BEAGLE_Phase.0.70.AFR = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.70"), Mean.Impute5.BEAGLE_Phase.0.70.AFR, NA),
                  Mean.Impute5.BEAGLE_Phase.0.80.AFR = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.80"), Mean.Impute5.BEAGLE_Phase.0.80.AFR, NA),
@@ -1314,7 +1282,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     
     Impute5_info <- apply(Impute5_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute5_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute5_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute5_info) <- c("Filter","Imp")
         Impute5_plot <- geom_line(data = Impute5_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Impute5"), 
@@ -1323,7 +1291,6 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
         Minimac4_inf <- plot_method_vs_indiv("Minimac4", "BEAGLE_Phase", "AFR", plot = FALSE)[[2]]
     Minimac4_info <- Minimac4_inf %>% 
           mutate(Mean.Minimac4.BEAGLE_Phase.0.00.AFR = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.00"), Mean.Minimac4.BEAGLE_Phase.0.00.AFR, NA),
-                 Mean.Minimac4.BEAGLE_Phase.0.30.AFR = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.30"), Mean.Minimac4.BEAGLE_Phase.0.30.AFR, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.50.AFR = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.50"), Mean.Minimac4.BEAGLE_Phase.0.50.AFR, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.70.AFR = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.70"), Mean.Minimac4.BEAGLE_Phase.0.70.AFR, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.80.AFR = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.80"), Mean.Minimac4.BEAGLE_Phase.0.80.AFR, NA),
@@ -1332,7 +1299,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     
     Minimac4_info <- apply(Minimac4_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Minimac4_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Minimac4_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Minimac4_info) <- c("Filter", "Imp")
         Minimac4_plot <- geom_line(data = Minimac4_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Minimac4"), 
@@ -1342,7 +1309,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
                labs(x = "GP Filter", y = "Num of Inversions", 
                     title = "Imputable Inversions with Inversions Filtered",
                     subtitle = paste0("All Methods, ", "BEAGLE_Phase Phasing AFR Population")) +
-              scale_x_continuous(breaks = c(0.00, 0.30, 0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) +
+              scale_x_continuous(breaks = c(0.00,  0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")) +
               scale_color_manual(values = method_colors,
 #                                 labels = c("Beagle", "Impute2", "Impute5", "Minimac4"),
                                  name = c()) +
@@ -1360,29 +1327,16 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
        DF <-  data.frame(
           Method = c("Beagle", "Impute2", "Impute5", "Minimac4"),
           "0.00" = c(Beagle_info$Imp[1],Impute2_info$Imp[1],Impute5_info$Imp[1],Minimac4_info$Imp[1]),
-          "0.30" = c(Beagle_info$Imp[2],Impute2_info$Imp[2],Impute5_info$Imp[2],Minimac4_info$Imp[2]),
           "0.50" = c(Beagle_info$Imp[3],Impute2_info$Imp[3],Impute5_info$Imp[3],Minimac4_info$Imp[3]),
           "0.70" = c(Beagle_info$Imp[4],Impute2_info$Imp[4],Impute5_info$Imp[4],Minimac4_info$Imp[4]),
           "0.80" = c(Beagle_info$Imp[5],Impute2_info$Imp[5],Impute5_info$Imp[5],Minimac4_info$Imp[5]),
           "0.90" = c(Beagle_info$Imp[6],Impute2_info$Imp[6],Impute5_info$Imp[6],Minimac4_info$Imp[6]),
           "0.95" = c(Beagle_info$Imp[7],Impute2_info$Imp[7],Impute5_info$Imp[7],Minimac4_info$Imp[7]))
-        plot_list[[2]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) 
-        # DF <-  data.frame(
-        #   Method = c("Beagle", "Impute2", "Impute5", "Minimac4"),
-        #   "0.00" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.00"))),length(intersect(Poli,check_loss("Impute2",pop,"0.00"))),length(intersect(Poli,check_loss("Impute5",pop,"0.00"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.00")))),
-        #   "0.30" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.30"))),length(intersect(Poli,check_loss("Impute2",pop,"0.30"))),length(intersect(Poli,check_loss("Impute5",pop,"0.30"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.30")))),
-        #   "0.50" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.50"))),length(intersect(Poli,check_loss("Impute2",pop,"0.50"))),length(intersect(Poli,check_loss("Impute5",pop,"0.50"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.50")))),
-        #   "0.70" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.70"))),length(intersect(Poli,check_loss("Impute2",pop,"0.70"))),length(intersect(Poli,check_loss("Impute5",pop,"0.70"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.70")))),
-        #   "0.80" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.80"))),length(intersect(Poli,check_loss("Impute2",pop,"0.80"))),length(intersect(Poli,check_loss("Impute5",pop,"0.80"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.80")))),
-        #   "0.90" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.90"))),length(intersect(Poli,check_loss("Impute2",pop,"0.90"))),length(intersect(Poli,check_loss("Impute5",pop,"0.90"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.90")))),
-        #   "0.95" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.95"))),length(intersect(Poli,check_loss("Impute2",pop,"0.95"))),length(intersect(Poli,check_loss("Impute5",pop,"0.95"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.95"))))
-        #   )
-        # plot_list[[i+1]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) 
-        # i <- i + 2
+        plot_list[[2]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")) 
+
             Beagle_inf <- plot_method_vs_indiv("Beagle", "BEAGLE_Phase", "EUR", plot = FALSE)[[2]]
    Beagle_info <- Beagle_inf %>% 
           mutate(Mean.Beagle.BEAGLE_Phase.0.00.EUR = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.00"), Mean.Beagle.BEAGLE_Phase.0.00.EUR, NA),
-                 Mean.Beagle.BEAGLE_Phase.0.30.EUR = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.30"), Mean.Beagle.BEAGLE_Phase.0.30.EUR, NA),
                  Mean.Beagle.BEAGLE_Phase.0.50.EUR = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.50"), Mean.Beagle.BEAGLE_Phase.0.50.EUR, NA),
                  Mean.Beagle.BEAGLE_Phase.0.70.EUR = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.70"), Mean.Beagle.BEAGLE_Phase.0.70.EUR, NA),
                  Mean.Beagle.BEAGLE_Phase.0.80.EUR = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.80"), Mean.Beagle.BEAGLE_Phase.0.80.EUR, NA),
@@ -1391,7 +1345,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     
     Beagle_info <- apply(Beagle_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Beagle_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Beagle_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Beagle_info) <- c("Filter","Imp")
         Beagle_plot <- geom_line(data = Beagle_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Beagle"), 
@@ -1400,7 +1354,6 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
         Impute2_inf <- plot_method_vs_indiv("Impute2", "BEAGLE_Phase", "EUR", plot = FALSE)[[2]]
     Impute2_info <- Impute2_inf %>% 
           mutate(Mean.Impute2.BEAGLE_Phase.0.00.EUR = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.00"), Mean.Impute2.BEAGLE_Phase.0.00.EUR, NA),
-                 Mean.Impute2.BEAGLE_Phase.0.30.EUR = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.30"), Mean.Impute2.BEAGLE_Phase.0.30.EUR, NA),
                  Mean.Impute2.BEAGLE_Phase.0.50.EUR = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.50"), Mean.Impute2.BEAGLE_Phase.0.50.EUR, NA),
                  Mean.Impute2.BEAGLE_Phase.0.70.EUR = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.70"), Mean.Impute2.BEAGLE_Phase.0.70.EUR, NA),
                  Mean.Impute2.BEAGLE_Phase.0.80.EUR = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.80"), Mean.Impute2.BEAGLE_Phase.0.80.EUR, NA),
@@ -1409,7 +1362,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     
     Impute2_info <- apply(Impute2_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute2_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute2_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute2_info) <- c("Filter", "Imp")
         Impute2_plot <- geom_line(data = Impute2_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Impute2"), 
@@ -1418,7 +1371,6 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
         Impute5_inf <- plot_method_vs_indiv("Impute5", "BEAGLE_Phase", "EUR", plot = FALSE)[[2]]
     Impute5_info <- Impute5_inf %>% 
           mutate(Mean.Impute5.BEAGLE_Phase.0.00.EUR = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.00"), Mean.Impute5.BEAGLE_Phase.0.00.EUR, NA),
-                 Mean.Impute5.BEAGLE_Phase.0.30.EUR = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.30"), Mean.Impute5.BEAGLE_Phase.0.30.EUR, NA),
                  Mean.Impute5.BEAGLE_Phase.0.50.EUR = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.50"), Mean.Impute5.BEAGLE_Phase.0.50.EUR, NA),
                  Mean.Impute5.BEAGLE_Phase.0.70.EUR = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.70"), Mean.Impute5.BEAGLE_Phase.0.70.EUR, NA),
                  Mean.Impute5.BEAGLE_Phase.0.80.EUR = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.80"), Mean.Impute5.BEAGLE_Phase.0.80.EUR, NA),
@@ -1427,7 +1379,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     
     Impute5_info <- apply(Impute5_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute5_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute5_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute5_info) <- c("Filter", "Imp")
         Impute5_plot <- geom_line(data = Impute5_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Impute5"), 
@@ -1436,7 +1388,6 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
         Minimac4_inf <- plot_method_vs_indiv("Minimac4", "BEAGLE_Phase", "EUR", plot = FALSE)[[2]]
     Minimac4_info <- Minimac4_inf %>% 
          mutate(Mean.Minimac4.BEAGLE_Phase.0.00.EUR = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.00"), Mean.Minimac4.BEAGLE_Phase.0.00.EUR, NA),
-                 Mean.Minimac4.BEAGLE_Phase.0.30.EUR = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.30"), Mean.Minimac4.BEAGLE_Phase.0.30.EUR, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.50.EUR = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.50"), Mean.Minimac4.BEAGLE_Phase.0.50.EUR, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.70.EUR = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.70"), Mean.Minimac4.BEAGLE_Phase.0.70.EUR, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.80.EUR = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.80"), Mean.Minimac4.BEAGLE_Phase.0.80.EUR, NA),
@@ -1445,7 +1396,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     
     Minimac4_info <- apply(Minimac4_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Minimac4_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Minimac4_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Minimac4_info) <- c("Filter", "Imp")
         Minimac4_plot <- geom_line(data = Minimac4_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Minimac4"), 
@@ -1455,7 +1406,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
                labs(x = "GP Filter", y = "Num of Inversions", 
                     title = "Imputable Inversions with Inversions Filtered",
                     subtitle = paste0("All Methods, ", "BEAGLE_Phase Phasing EUR Population")) +
-              scale_x_continuous(breaks = c(0.00, 0.30, 0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) +
+              scale_x_continuous(breaks = c(0.00,  0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")) +
               scale_color_manual(values = method_colors,
 #                                 labels = c("Beagle", "Impute2", "Impute5", "Minimac4"),
                                  name = c()) +
@@ -1474,19 +1425,17 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
                DF <-  data.frame(
           Method = c("Beagle", "Impute2", "Impute5", "Minimac4"),
           "0.00" = c(Beagle_info$Imp[1],Impute2_info$Imp[1],Impute5_info$Imp[1],Minimac4_info$Imp[1]),
-          "0.30" = c(Beagle_info$Imp[2],Impute2_info$Imp[2],Impute5_info$Imp[2],Minimac4_info$Imp[2]),
           "0.50" = c(Beagle_info$Imp[3],Impute2_info$Imp[3],Impute5_info$Imp[3],Minimac4_info$Imp[3]),
           "0.70" = c(Beagle_info$Imp[4],Impute2_info$Imp[4],Impute5_info$Imp[4],Minimac4_info$Imp[4]),
           "0.80" = c(Beagle_info$Imp[5],Impute2_info$Imp[5],Impute5_info$Imp[5],Minimac4_info$Imp[5]),
           "0.90" = c(Beagle_info$Imp[6],Impute2_info$Imp[6],Impute5_info$Imp[6],Minimac4_info$Imp[6]),
           "0.95" = c(Beagle_info$Imp[7],Impute2_info$Imp[7],Impute5_info$Imp[7],Minimac4_info$Imp[7]))
-        plot_list[[4]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95"))         
+        plot_list[[4]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00",  "0.50", "0.70", "0.80", "0.90", "0.95"))         
         
         
             Beagle_inf <- plot_method_vs_indiv("Beagle", "BEAGLE_Phase", "EAS", plot = FALSE)[[2]]
     Beagle_info <- Beagle_inf %>% 
          mutate(Mean.Beagle.BEAGLE_Phase.0.00.EAS = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.00"), Mean.Beagle.BEAGLE_Phase.0.00.EAS, NA),
-                 Mean.Beagle.BEAGLE_Phase.0.30.EAS = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.30"), Mean.Beagle.BEAGLE_Phase.0.30.EAS, NA),
                  Mean.Beagle.BEAGLE_Phase.0.50.EAS = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.50"), Mean.Beagle.BEAGLE_Phase.0.50.EAS, NA),
                  Mean.Beagle.BEAGLE_Phase.0.70.EAS = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.70"), Mean.Beagle.BEAGLE_Phase.0.70.EAS, NA),
                  Mean.Beagle.BEAGLE_Phase.0.80.EAS = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.80"), Mean.Beagle.BEAGLE_Phase.0.80.EAS, NA),
@@ -1494,7 +1443,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
                  Mean.Beagle.BEAGLE_Phase.0.95.EAS = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.95"), Mean.Beagle.BEAGLE_Phase.0.95.EAS, NA))
     Beagle_info <- apply(Beagle_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Beagle_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Beagle_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Beagle_info) <- c("Filter","Imp")
         Beagle_plot <- geom_line(data = Beagle_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Beagle"), 
@@ -1503,7 +1452,6 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
         Impute2_inf <- plot_method_vs_indiv("Impute2", "BEAGLE_Phase", "EAS", plot = FALSE)[[2]]
     Impute2_info <- Impute2_inf %>% 
           mutate(Mean.Impute2.BEAGLE_Phase.0.00.EAS = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.00"), Mean.Impute2.BEAGLE_Phase.0.00.EAS, NA),
-                 Mean.Impute2.BEAGLE_Phase.0.30.EAS = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.30"), Mean.Impute2.BEAGLE_Phase.0.30.EAS, NA),
                  Mean.Impute2.BEAGLE_Phase.0.50.EAS = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.50"), Mean.Impute2.BEAGLE_Phase.0.50.EAS, NA),
                  Mean.Impute2.BEAGLE_Phase.0.70.EAS = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.70"), Mean.Impute2.BEAGLE_Phase.0.70.EAS, NA),
                  Mean.Impute2.BEAGLE_Phase.0.80.EAS = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.80"), Mean.Impute2.BEAGLE_Phase.0.80.EAS, NA),
@@ -1511,7 +1459,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
                  Mean.Impute2.BEAGLE_Phase.0.95.EAS = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.95"), Mean.Impute2.BEAGLE_Phase.0.95.EAS, NA))
     Impute2_info <- apply(Impute2_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute2_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute2_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute2_info) <- c("Filter", "Imp")
         Impute2_plot <- geom_line(data = Impute2_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Impute2"), 
@@ -1520,7 +1468,6 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
         Impute5_inf <- plot_method_vs_indiv("Impute5", "BEAGLE_Phase", "EAS", plot = FALSE)[[2]]
     Impute5_info <- Impute5_inf %>% 
           mutate(Mean.Impute5.BEAGLE_Phase.0.00.EAS = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.00"), Mean.Impute5.BEAGLE_Phase.0.00.EAS, NA),
-                 Mean.Impute5.BEAGLE_Phase.0.30.EAS = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.30"), Mean.Impute5.BEAGLE_Phase.0.30.EAS, NA),
                  Mean.Impute5.BEAGLE_Phase.0.50.EAS = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.50"), Mean.Impute5.BEAGLE_Phase.0.50.EAS, NA),
                  Mean.Impute5.BEAGLE_Phase.0.70.EAS = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.70"), Mean.Impute5.BEAGLE_Phase.0.70.EAS, NA),
                  Mean.Impute5.BEAGLE_Phase.0.80.EAS = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.80"), Mean.Impute5.BEAGLE_Phase.0.80.EAS, NA),
@@ -1529,7 +1476,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     
     Impute5_info <- apply(Impute5_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute5_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute5_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute5_info) <- c("Filter","Imp")
         Impute5_plot <- geom_line(data = Impute5_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Impute5"), 
@@ -1538,7 +1485,6 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
         Minimac4_inf <- plot_method_vs_indiv("Minimac4", "BEAGLE_Phase", "EAS", plot = FALSE)[[2]]
     Minimac4_info <- Minimac4_inf %>% 
           mutate(Mean.Minimac4.BEAGLE_Phase.0.00.EAS = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.00"), Mean.Minimac4.BEAGLE_Phase.0.00.EAS, NA),
-                 Mean.Minimac4.BEAGLE_Phase.0.30.EAS = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.30"), Mean.Minimac4.BEAGLE_Phase.0.30.EAS, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.50.EAS = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.50"), Mean.Minimac4.BEAGLE_Phase.0.50.EAS, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.70.EAS = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.70"), Mean.Minimac4.BEAGLE_Phase.0.70.EAS, NA),
                  Mean.Minimac4.BEAGLE_Phase.0.80.EAS = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.80"), Mean.Minimac4.BEAGLE_Phase.0.80.EAS, NA),
@@ -1547,7 +1493,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     
     Minimac4_info <- apply(Minimac4_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Minimac4_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Minimac4_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Minimac4_info) <- c("Filter", "Imp")
         Minimac4_plot <- geom_line(data = Minimac4_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Minimac4"), 
@@ -1557,7 +1503,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
                labs(x = "GP Filter", y = "Num of Inversions", 
                     title = "Imputable inversions with Inversions Filtered",
                     subtitle = paste0("All Methods, ", "BEAGLE_Phase Phasing EAS Population")) +
-              scale_x_continuous(breaks = c(0.00, 0.30, 0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) +
+              scale_x_continuous(breaks = c(0.00,  0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")) +
               scale_color_manual(values = method_colors,
 #                                 labels = c("Beagle", "Impute2", "Impute5", "Minimac4"),
                                  name = c()) +
@@ -1576,13 +1522,12 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
                DF <-  data.frame(
           Method = c("Beagle", "Impute2", "Impute5", "Minimac4"),
           "0.00" = c(Beagle_info$Imp[1],Impute2_info$Imp[1],Impute5_info$Imp[1],Minimac4_info$Imp[1]),
-          "0.30" = c(Beagle_info$Imp[2],Impute2_info$Imp[2],Impute5_info$Imp[2],Minimac4_info$Imp[2]),
           "0.50" = c(Beagle_info$Imp[3],Impute2_info$Imp[3],Impute5_info$Imp[3],Minimac4_info$Imp[3]),
           "0.70" = c(Beagle_info$Imp[4],Impute2_info$Imp[4],Impute5_info$Imp[4],Minimac4_info$Imp[4]),
           "0.80" = c(Beagle_info$Imp[5],Impute2_info$Imp[5],Impute5_info$Imp[5],Minimac4_info$Imp[5]),
           "0.90" = c(Beagle_info$Imp[6],Impute2_info$Imp[6],Impute5_info$Imp[6],Minimac4_info$Imp[6]),
           "0.95" = c(Beagle_info$Imp[7],Impute2_info$Imp[7],Impute5_info$Imp[7],Minimac4_info$Imp[7]))
-        plot_list[[6]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) 
+        plot_list[[6]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")) 
 ```
 
 ```{r, warning=FALSE}
@@ -1600,7 +1545,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     Beagle_info <- Beagle_inf
     Beagle_info <- apply(Beagle_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Beagle_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Beagle_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Beagle_info) <- c("Filter", "Imp")
         Beagle_plot <- geom_line(data = Beagle_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Beagle"), 
@@ -1610,7 +1555,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     Impute2_info <- Impute2_inf 
     Impute2_info <- apply(Impute2_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute2_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute2_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute2_info) <- c("Filter", "Imp")
         Impute2_plot <- geom_line(data = Impute2_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Impute2"), 
@@ -1620,7 +1565,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     Impute5_info <- Impute5_inf 
     Impute5_info <- apply(Impute5_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute5_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute5_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute5_info) <- c("Filter","Imp")
         Impute5_plot <- geom_line(data = Impute5_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Impute5"), 
@@ -1630,7 +1575,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     Minimac4_info <- Minimac4_inf 
     Minimac4_info <- apply(Minimac4_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Minimac4_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Minimac4_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Minimac4_info) <- c("Filter", "Imp")
         Minimac4_plot <- geom_line(data = Minimac4_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Minimac4"), 
@@ -1640,7 +1585,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
                labs(x = "GP Filter", y = "Num of Inversions", 
                     title = "Imputable Inversions without Inversions Filtered",
                     subtitle = paste0("All Methods, ", "BEAGLE_Phase Phasing AFR Population")) +
-              scale_x_continuous(breaks = c(0.00, 0.30, 0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) +
+              scale_x_continuous(breaks = c(0.00,  0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")) +
               scale_color_manual(values = method_colors,
 #                                 labels = c("Beagle", "Impute2", "Impute5", "Minimac4"),
                                  name = c()) +
@@ -1658,30 +1603,18 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
        DF <-  data.frame(
           Method = c("Beagle", "Impute2", "Impute5", "Minimac4"),
           "0.00" = c(Beagle_info$Imp[1],Impute2_info$Imp[1],Impute5_info$Imp[1],Minimac4_info$Imp[1]),
-          "0.30" = c(Beagle_info$Imp[2],Impute2_info$Imp[2],Impute5_info$Imp[2],Minimac4_info$Imp[2]),
           "0.50" = c(Beagle_info$Imp[3],Impute2_info$Imp[3],Impute5_info$Imp[3],Minimac4_info$Imp[3]),
           "0.70" = c(Beagle_info$Imp[4],Impute2_info$Imp[4],Impute5_info$Imp[4],Minimac4_info$Imp[4]),
           "0.80" = c(Beagle_info$Imp[5],Impute2_info$Imp[5],Impute5_info$Imp[5],Minimac4_info$Imp[5]),
           "0.90" = c(Beagle_info$Imp[6],Impute2_info$Imp[6],Impute5_info$Imp[6],Minimac4_info$Imp[6]),
           "0.95" = c(Beagle_info$Imp[7],Impute2_info$Imp[7],Impute5_info$Imp[7],Minimac4_info$Imp[7]))
-        plot_list[[2]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) 
-        # DF <-  data.frame(
-        #   Method = c("Beagle", "Impute2", "Impute5", "Minimac4"),
-        #   "0.00" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.00"))),length(intersect(Poli,check_loss("Impute2",pop,"0.00"))),length(intersect(Poli,check_loss("Impute5",pop,"0.00"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.00")))),
-        #   "0.30" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.30"))),length(intersect(Poli,check_loss("Impute2",pop,"0.30"))),length(intersect(Poli,check_loss("Impute5",pop,"0.30"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.30")))),
-        #   "0.50" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.50"))),length(intersect(Poli,check_loss("Impute2",pop,"0.50"))),length(intersect(Poli,check_loss("Impute5",pop,"0.50"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.50")))),
-        #   "0.70" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.70"))),length(intersect(Poli,check_loss("Impute2",pop,"0.70"))),length(intersect(Poli,check_loss("Impute5",pop,"0.70"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.70")))),
-        #   "0.80" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.80"))),length(intersect(Poli,check_loss("Impute2",pop,"0.80"))),length(intersect(Poli,check_loss("Impute5",pop,"0.80"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.80")))),
-        #   "0.90" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.90"))),length(intersect(Poli,check_loss("Impute2",pop,"0.90"))),length(intersect(Poli,check_loss("Impute5",pop,"0.90"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.90")))),
-        #   "0.95" = c(length(intersect(Poli,check_loss("Beagle",pop,"0.95"))),length(intersect(Poli,check_loss("Impute2",pop,"0.95"))),length(intersect(Poli,check_loss("Impute5",pop,"0.95"))),length(intersect(Poli,check_loss("Minimac4",pop,"0.95"))))
-        #   )
-        # plot_list[[i+1]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) 
-        # i <- i + 2
+        plot_list[[2]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")) 
+
             Beagle_inf <- plot_method_vs_indiv("Beagle", "BEAGLE_Phase", "EUR", plot = FALSE)[[2]]
    Beagle_info <- Beagle_inf 
     Beagle_info <- apply(Beagle_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Beagle_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Beagle_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Beagle_info) <- c("Filter","Imp")
         Beagle_plot <- geom_line(data = Beagle_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Beagle"), 
@@ -1691,7 +1624,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     Impute2_info <- Impute2_inf 
     Impute2_info <- apply(Impute2_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute2_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute2_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute2_info) <- c("Filter", "Imp")
         Impute2_plot <- geom_line(data = Impute2_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Impute2"), 
@@ -1701,7 +1634,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     Impute5_info <- Impute5_inf
     Impute5_info <- apply(Impute5_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute5_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute5_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute5_info) <- c("Filter", "Imp")
         Impute5_plot <- geom_line(data = Impute5_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Impute5"), 
@@ -1711,7 +1644,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     Minimac4_info <- Minimac4_inf 
     Minimac4_info <- apply(Minimac4_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Minimac4_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Minimac4_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Minimac4_info) <- c("Filter", "Imp")
         Minimac4_plot <- geom_line(data = Minimac4_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Minimac4"), 
@@ -1721,7 +1654,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
                labs(x = "GP Filter", y = "Num of Inversions", 
                     title = "Imputable Inversions without Inversions Filtered",
                     subtitle = paste0("All Methods, ", "BEAGLE_Phase Phasing EUR Population")) +
-              scale_x_continuous(breaks = c(0.00, 0.30, 0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) +
+              scale_x_continuous(breaks = c(0.00,  0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")) +
               scale_color_manual(values = method_colors,
 #                                 labels = c("Beagle", "Impute2", "Impute5", "Minimac4"),
                                  name = c()) +
@@ -1740,20 +1673,18 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
                DF <-  data.frame(
           Method = c("Beagle", "Impute2", "Impute5", "Minimac4"),
           "0.00" = c(Beagle_info$Imp[1],Impute2_info$Imp[1],Impute5_info$Imp[1],Minimac4_info$Imp[1]),
-          "0.30" = c(Beagle_info$Imp[2],Impute2_info$Imp[2],Impute5_info$Imp[2],Minimac4_info$Imp[2]),
           "0.50" = c(Beagle_info$Imp[3],Impute2_info$Imp[3],Impute5_info$Imp[3],Minimac4_info$Imp[3]),
           "0.70" = c(Beagle_info$Imp[4],Impute2_info$Imp[4],Impute5_info$Imp[4],Minimac4_info$Imp[4]),
           "0.80" = c(Beagle_info$Imp[5],Impute2_info$Imp[5],Impute5_info$Imp[5],Minimac4_info$Imp[5]),
           "0.90" = c(Beagle_info$Imp[6],Impute2_info$Imp[6],Impute5_info$Imp[6],Minimac4_info$Imp[6]),
           "0.95" = c(Beagle_info$Imp[7],Impute2_info$Imp[7],Impute5_info$Imp[7],Minimac4_info$Imp[7]))
-        plot_list[[4]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95"))         
-        
+        plot_list[[4]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00",  "0.50", "0.70", "0.80", "0.90", "0.95"))         
         
             Beagle_inf <- plot_method_vs_indiv("Beagle", "BEAGLE_Phase", "EAS", plot = FALSE)[[2]]
     Beagle_info <- Beagle_inf 
     Beagle_info <- apply(Beagle_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Beagle_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Beagle_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Beagle_info) <- c("Filter","Imp")
         Beagle_plot <- geom_line(data = Beagle_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Beagle"), 
@@ -1763,7 +1694,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     Impute2_info <- Impute2_inf 
     Impute2_info <- apply(Impute2_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute2_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute2_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute2_info) <- c("Filter", "Imp")
         Impute2_plot <- geom_line(data = Impute2_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Impute2"), 
@@ -1773,7 +1704,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     Impute5_info <- Impute5_inf
     Impute5_info <- apply(Impute5_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Impute5_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Impute5_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Impute5_info) <- c("Filter","Imp")
         Impute5_plot <- geom_line(data = Impute5_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Impute5"), 
@@ -1783,7 +1714,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
     Minimac4_info <- Minimac4_inf 
     Minimac4_info <- apply(Minimac4_info[-1], 2, function(x) sum(x >= 0.8, na.rm = TRUE)) %>% as.data.frame() %>%
       rownames_to_column(var = "Filter")
-    Minimac4_info$Filter <- c(0.00,0.30,0.50,0.70,0.80,0.90,0.95)
+    Minimac4_info$Filter <- c(0.00,0.50,0.70,0.80,0.90,0.95)
     colnames(Minimac4_info) <- c("Filter", "Imp")
         Minimac4_plot <- geom_line(data = Minimac4_info, 
                          aes(x = Filter, y = Imp, ymin = 0, ymax = 55,  color = "Minimac4"), 
@@ -1793,7 +1724,7 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
                labs(x = "GP Filter", y = "Num of Inversions", 
                     title = "Imputable inversions without Inversions Filtered",
                     subtitle = paste0("All Methods, ", "BEAGLE_Phase Phasing EAS Population")) +
-              scale_x_continuous(breaks = c(0.00, 0.30, 0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) +
+              scale_x_continuous(breaks = c(0.00,  0.50, 0.70, 0.80, 0.90, 0.95), labels = c("0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")) +
               scale_color_manual(values = method_colors,
 #                                 labels = c("Beagle", "Impute2", "Impute5", "Minimac4"),
                                  name = c()) +
@@ -1812,13 +1743,12 @@ grid.arrange(plot_list[[5]], plot_list[[6]], ncol = 1, heights = c(2,1))
                DF <-  data.frame(
           Method = c("Beagle", "Impute2", "Impute5", "Minimac4"),
           "0.00" = c(Beagle_info$Imp[1],Impute2_info$Imp[1],Impute5_info$Imp[1],Minimac4_info$Imp[1]),
-          "0.30" = c(Beagle_info$Imp[2],Impute2_info$Imp[2],Impute5_info$Imp[2],Minimac4_info$Imp[2]),
           "0.50" = c(Beagle_info$Imp[3],Impute2_info$Imp[3],Impute5_info$Imp[3],Minimac4_info$Imp[3]),
           "0.70" = c(Beagle_info$Imp[4],Impute2_info$Imp[4],Impute5_info$Imp[4],Minimac4_info$Imp[4]),
           "0.80" = c(Beagle_info$Imp[5],Impute2_info$Imp[5],Impute5_info$Imp[5],Minimac4_info$Imp[5]),
           "0.90" = c(Beagle_info$Imp[6],Impute2_info$Imp[6],Impute5_info$Imp[6],Minimac4_info$Imp[6]),
           "0.95" = c(Beagle_info$Imp[7],Impute2_info$Imp[7],Impute5_info$Imp[7],Minimac4_info$Imp[7]))
-        plot_list[[6]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")) 
+        plot_list[[6]] <- tableGrob(DF, rows = c(), cols = c("Method", "0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")) 
 ```
 
 ```{r}
@@ -1987,9 +1917,8 @@ M4.data.EAS.0 <- M4.data.EAS.0[M4.data.EAS.0$INV %in% NAHR.Invs,]
 M4.data.EUR.0 <- M4.data.EUR.0[M4.data.EUR.0$INV %in% NAHR.Invs,]
 
 
-
-ggpairs(M4.data.AFR[c(9:16)])
-ggpairs(I2.data.AFR[c(9:16)])
+ggpairs(M4.data.AFR[c(9:18)])
+ggpairs(I2.data.AFR[c(9:18)])
 
 
 
@@ -2035,8 +1964,8 @@ qqline(lmI2.Residuals)
 
 
 # Another check is the multicollinearity assumption
-Reduced.M4 <- M4.data.AFR[c(9:15)]
-Reduced.I2 <- I2.data.AFR[c(9:15)]
+Reduced.M4 <- M4.data.AFR[c(9:16)]
+Reduced.I2 <- I2.data.AFR[c(9:16)]
 
 # Plot a correlation matrix
 CM.M4 = round(cor(Reduced.M4), 2)
@@ -2843,18 +2772,18 @@ ScoreInvHap.Invs.EUR <- sel_df(Imputation.Info, imp_method = "ScoreInvHap", pop 
 BEAGLE.BEAGLE_Phase.Invs.EUR <- BEAGLE.BEAGLE_Phase.Invs.EUR[match(Inv.Data.Plot.EUR$INV, BEAGLE.BEAGLE_Phase.Invs.EUR$INV),]
 rownames(BEAGLE.BEAGLE_Phase.Invs.EUR) <- c()
 BEAGLE.BEAGLE_Phase.Invs.EUR <- column_to_rownames(BEAGLE.BEAGLE_Phase.Invs.EUR, var = "INV")
-colnames(BEAGLE.BEAGLE_Phase.Invs.EUR) <- c("0.00", "0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(BEAGLE.BEAGLE_Phase.Invs.EUR) <- c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 BEAGLE.BEAGLE_Phase.Invs.EUR <- BEAGLE.BEAGLE_Phase.Invs.EUR %>% mutate_at(
-  vars(`0.00`,`0.30`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
+  vars(`0.00`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
 )
 BEAGLE.BEAGLE_Phase.Invs.EUR <- roundAll(BEAGLE.BEAGLE_Phase.Invs.EUR, 2)
 
 Impute2.BEAGLE_Phase.Invs.EUR <- Impute2.BEAGLE_Phase.Invs.EUR[match(Inv.Data.Plot.EUR$INV, Impute2.BEAGLE_Phase.Invs.EUR$INV),]
 rownames(Impute2.BEAGLE_Phase.Invs.EUR) <- c()
 Impute2.BEAGLE_Phase.Invs.EUR <- column_to_rownames(Impute2.BEAGLE_Phase.Invs.EUR, var = "INV")
-colnames(Impute2.BEAGLE_Phase.Invs.EUR) <- c("0.00", "0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Impute2.BEAGLE_Phase.Invs.EUR) <- c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 Impute2.BEAGLE_Phase.Invs.EUR <- Impute2.BEAGLE_Phase.Invs.EUR %>% mutate_at(
-  vars(`0.00`,`0.30`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
+  vars(`0.00`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
 )
 Impute2.BEAGLE_Phase.Invs.EUR <- roundAll(Impute2.BEAGLE_Phase.Invs.EUR, 2)
 
@@ -2862,9 +2791,9 @@ Impute2.BEAGLE_Phase.Invs.EUR <- roundAll(Impute2.BEAGLE_Phase.Invs.EUR, 2)
 Impute5.BEAGLE_Phase.Invs.EUR <- Impute5.BEAGLE_Phase.Invs.EUR[match(Inv.Data.Plot.EUR$INV, Impute5.BEAGLE_Phase.Invs.EUR$INV),]
 rownames(Impute5.BEAGLE_Phase.Invs.EUR) <- c()
 Impute5.BEAGLE_Phase.Invs.EUR <- column_to_rownames(Impute5.BEAGLE_Phase.Invs.EUR, var = "INV")
-colnames(Impute5.BEAGLE_Phase.Invs.EUR) <- c("0.00", "0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Impute5.BEAGLE_Phase.Invs.EUR) <- c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 Impute5.BEAGLE_Phase.Invs.EUR <- Impute5.BEAGLE_Phase.Invs.EUR %>% mutate_at(
-  vars(`0.00`,`0.30`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
+  vars(`0.00`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
 )
 Impute5.BEAGLE_Phase.Invs.EUR <- roundAll(Impute5.BEAGLE_Phase.Invs.EUR, 2)
 
@@ -2872,9 +2801,9 @@ Impute5.BEAGLE_Phase.Invs.EUR <- roundAll(Impute5.BEAGLE_Phase.Invs.EUR, 2)
 Minimac4.BEAGLE_Phase.Invs.EUR <- Minimac4.BEAGLE_Phase.Invs.EUR[match(Inv.Data.Plot.EUR$INV, Minimac4.BEAGLE_Phase.Invs.EUR$INV),]
 rownames(Minimac4.BEAGLE_Phase.Invs.EUR) <- c()
 Minimac4.BEAGLE_Phase.Invs.EUR <- column_to_rownames(Minimac4.BEAGLE_Phase.Invs.EUR, var = "INV")
-colnames(Minimac4.BEAGLE_Phase.Invs.EUR) <- c("0.00", "0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Minimac4.BEAGLE_Phase.Invs.EUR) <- c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 Minimac4.BEAGLE_Phase.Invs.EUR <- Minimac4.BEAGLE_Phase.Invs.EUR %>% mutate_at(
-  vars(`0.00`,`0.30`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
+  vars(`0.00`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
 )
 Minimac4.BEAGLE_Phase.Invs.EUR <- roundAll(Minimac4.BEAGLE_Phase.Invs.EUR, 2)
 
@@ -2894,32 +2823,32 @@ png("../Results_Stats/IA_EUR.png", height = 4134, width = 5000)
 par(mar = c(20,50,10,1), bg = "#F6F9FF")
 #par(mfrow = c(1,4))
 layout( matrix(c(rep(1,38), rep(2,30), rep(3,30), rep(4,30), rep(5, 23), rep(6, 23)), nrow = 1))
-plot(as.matrix(BEAGLE.BEAGLE_Phase.Invs.EUR[,c(3,6,7)]), xaxt = "n", axis.col = NULL, yaxt = "n",
+plot(as.matrix(BEAGLE.BEAGLE_Phase.Invs.EUR[,c(1,3,4)]), xaxt = "n", axis.col = NULL, yaxt = "n",
      axis.row = list(side = 2, las = 1, cex.axis = 7, line = 8, tick = F), ylab = "", xlab = "", col = cols,
      breaks = round(c(0, seq(100)/100), 2), main = "BEAGLE", digits = 4, text.cell = list(cex=5.4), 
      na.col = "gray", key = NULL, cex.main = 8)
-axis(1, line = 5, tick = F, cex.axis = 6, labels = Filters[c(1,4,5)], at = seq(3))
+axis(1, line = 5, tick = F, cex.axis = 6, labels = Filts[c(1,3,4)], at = seq(3))
 #axis(2, line = 10, tick = F, cex.axis = 7, labels(rownames(BeMtxEUR)), at = seq(length(rownames(BeMtxEUR))))
 
 par(mar = c(20,15,10,1))
-plot(as.matrix(Impute2.BEAGLE_Phase.Invs.EUR[,c(3,6,7)]), axis.col = NULL,
+plot(as.matrix(Impute2.BEAGLE_Phase.Invs.EUR[,c(1,3,4)]), axis.col = NULL,
      axis.row = NULL, ylab = "", xlab = "", col = cols,
      breaks = round(c(0, seq(100)/100), 2), main = "IMPUTE2", digits = 4, text.cell = list(cex=5.4), 
      na.col = "gray", key = NULL, cex.lab = 10, cex.main = 8)
-axis(1, line = 5, tick = F, cex.axis = 6, labels = Filters[c(1,4,5)], at = seq(3))
+axis(1, line = 5, tick = F, cex.axis = 6, labels = Filts[c(1,3,4)], at = seq(3))
 
-plot(as.matrix(Impute5.BEAGLE_Phase.Invs.EUR[,c(3,6,7)]), axis.col = NULL,
+plot(as.matrix(Impute5.BEAGLE_Phase.Invs.EUR[,c(1,3,4)]), axis.col = NULL,
      axis.row = NULL, ylab = "", xlab = "", col = cols,
      breaks = round(c(0, seq(100)/100), 2), main = "IMPUTE5", digits = 4, text.cell = list(cex=5.4), 
      na.col = "gray", key = NULL, cex.main = 8)
-axis(1, line = 5, tick = F, cex.axis = 6, labels = Filters[c(1,4,5)], at = seq(3))
+axis(1, line = 5, tick = F, cex.axis = 6, labels = Filts[c(1,3,4)], at = seq(3))
 title(xlab = "Filter", line = 15, cex.lab = 8)
 
-plot(as.matrix(Minimac4.BEAGLE_Phase.Invs.EUR[,c(3,6,7)]), axis.col = NULL,
+plot(as.matrix(Minimac4.BEAGLE_Phase.Invs.EUR[,c(1,3,4)]), axis.col = NULL,
      axis.row = NULL, ylab = "", xlab = "", col = cols,
      breaks = round(c(0, seq(100)/100), 2), main = "Minimac4", digits = 4, text.cell = list(cex=5.4),
      na.col = "gray", key = NULL, cex.main = 8)
-axis(1, line = 5, tick = F, cex.axis = 6, labels = Filters[c(1,4,5)], at = seq(3))
+axis(1, line = 5, tick = F, cex.axis = 6, labels = Filts[c(1,3,4)], at = seq(3))
 
 par(mar = c(20,15,10,15))
 plot(as.matrix(ScoreInvHap.Invs.EUR[,1]), axis.col = NULL,
@@ -2946,18 +2875,18 @@ ScoreInvHap.Invs.AFR <- sel_df(Imputation.Info, imp_method = "ScoreInvHap", pop 
 BEAGLE.BEAGLE_Phase.Invs.AFR <- BEAGLE.BEAGLE_Phase.Invs.AFR[match(Inv.Data.Plot.AFR$INV, BEAGLE.BEAGLE_Phase.Invs.AFR$INV),]
 rownames(BEAGLE.BEAGLE_Phase.Invs.AFR) <- c()
 BEAGLE.BEAGLE_Phase.Invs.AFR <- column_to_rownames(BEAGLE.BEAGLE_Phase.Invs.AFR, var = "INV")
-colnames(BEAGLE.BEAGLE_Phase.Invs.AFR) <- c("0.00", "0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(BEAGLE.BEAGLE_Phase.Invs.AFR) <- c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 BEAGLE.BEAGLE_Phase.Invs.AFR <- BEAGLE.BEAGLE_Phase.Invs.AFR %>% mutate_at(
-  vars(`0.00`,`0.30`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
+  vars(`0.00`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
 )
 BEAGLE.BEAGLE_Phase.Invs.AFR <- roundAll(BEAGLE.BEAGLE_Phase.Invs.AFR, 2)
 
 Impute2.BEAGLE_Phase.Invs.AFR <- Impute2.BEAGLE_Phase.Invs.AFR[match(Inv.Data.Plot.AFR$INV, Impute2.BEAGLE_Phase.Invs.AFR$INV),]
 rownames(Impute2.BEAGLE_Phase.Invs.AFR) <- c()
 Impute2.BEAGLE_Phase.Invs.AFR <- column_to_rownames(Impute2.BEAGLE_Phase.Invs.AFR, var = "INV")
-colnames(Impute2.BEAGLE_Phase.Invs.AFR) <- c("0.00", "0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Impute2.BEAGLE_Phase.Invs.AFR) <- c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 Impute2.BEAGLE_Phase.Invs.AFR <- Impute2.BEAGLE_Phase.Invs.AFR %>% mutate_at(
-  vars(`0.00`,`0.30`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
+  vars(`0.00`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
 )
 Impute2.BEAGLE_Phase.Invs.AFR <- roundAll(Impute2.BEAGLE_Phase.Invs.AFR, 2)
 
@@ -2965,9 +2894,9 @@ Impute2.BEAGLE_Phase.Invs.AFR <- roundAll(Impute2.BEAGLE_Phase.Invs.AFR, 2)
 Impute5.BEAGLE_Phase.Invs.AFR <- Impute5.BEAGLE_Phase.Invs.AFR[match(Inv.Data.Plot.AFR$INV, Impute5.BEAGLE_Phase.Invs.AFR$INV),]
 rownames(Impute5.BEAGLE_Phase.Invs.AFR) <- c()
 Impute5.BEAGLE_Phase.Invs.AFR <- column_to_rownames(Impute5.BEAGLE_Phase.Invs.AFR, var = "INV")
-colnames(Impute5.BEAGLE_Phase.Invs.AFR) <- c("0.00", "0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Impute5.BEAGLE_Phase.Invs.AFR) <- c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 Impute5.BEAGLE_Phase.Invs.AFR <- Impute5.BEAGLE_Phase.Invs.AFR %>% mutate_at(
-  vars(`0.00`,`0.30`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
+  vars(`0.00`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
 )
 Impute5.BEAGLE_Phase.Invs.AFR <- roundAll(Impute5.BEAGLE_Phase.Invs.AFR, 2)
 
@@ -2975,9 +2904,9 @@ Impute5.BEAGLE_Phase.Invs.AFR <- roundAll(Impute5.BEAGLE_Phase.Invs.AFR, 2)
 Minimac4.BEAGLE_Phase.Invs.AFR <- Minimac4.BEAGLE_Phase.Invs.AFR[match(Inv.Data.Plot.AFR$INV, Minimac4.BEAGLE_Phase.Invs.AFR$INV),]
 rownames(Minimac4.BEAGLE_Phase.Invs.AFR) <- c()
 Minimac4.BEAGLE_Phase.Invs.AFR <- column_to_rownames(Minimac4.BEAGLE_Phase.Invs.AFR, var = "INV")
-colnames(Minimac4.BEAGLE_Phase.Invs.AFR) <- c("0.00", "0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Minimac4.BEAGLE_Phase.Invs.AFR) <- c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 Minimac4.BEAGLE_Phase.Invs.AFR <- Minimac4.BEAGLE_Phase.Invs.AFR %>% mutate_at(
-  vars(`0.00`,`0.30`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
+  vars(`0.00`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
 )
 Minimac4.BEAGLE_Phase.Invs.AFR <- roundAll(Minimac4.BEAGLE_Phase.Invs.AFR, 2)
 
@@ -2998,32 +2927,32 @@ par(mar = c(20,50,10,1), bg = "#F6F9FF")
 #par(mfrow = c(1,4))
 
 layout( matrix(c(rep(1,38), rep(2,30), rep(3,30), rep(4,30), rep(5, 23), rep(6, 23)), nrow = 1))
-plot(as.matrix(BEAGLE.BEAGLE_Phase.Invs.AFR[,c(3,6,7)]), xaxt = "n", axis.col = NULL, yaxt = "n",
+plot(as.matrix(BEAGLE.BEAGLE_Phase.Invs.AFR[,c(1,3,4)]), xaxt = "n", axis.col = NULL, yaxt = "n",
      axis.row = list(side = 2, las = 1, cex.axis = 7, line = 8, tick = F), ylab = "", xlab = "", col = cols,
      breaks = round(c(0, seq(100)/100), 2), main = "BEAGLE", digits = 4, text.cell = list(cex=5.4), 
      na.col = "gray", key = NULL, cex.main = 8)
-axis(1, line = 5, tick = F, cex.axis = 6, labels = Filters[c(1,4,5)], at = seq(3))
+axis(1, line = 5, tick = F, cex.axis = 6, labels = Filts[c(1,3,4)], at = seq(3))
 #axis(2, line = 10, tick = F, cex.axis = 7, labels(rownames(BeMtxAFR)), at = seq(length(rownames(BeMtxAFR))))
 
 par(mar = c(20,15,10,1))
-plot(as.matrix(Impute2.BEAGLE_Phase.Invs.AFR[,c(3,6,7)]), axis.col = NULL,
+plot(as.matrix(Impute2.BEAGLE_Phase.Invs.AFR[,c(1,3,4)]), axis.col = NULL,
      axis.row = NULL, ylab = "", xlab = "", col = cols,
      breaks = round(c(0, seq(100)/100), 2), main = "IMPUTE2", digits = 4, text.cell = list(cex=5.4), 
      na.col = "gray", key = NULL, cex.lab = 10, cex.main = 8)
-axis(1, line = 5, tick = F, cex.axis = 6, labels = Filters[c(1,4,5)], at = seq(3))
+axis(1, line = 5, tick = F, cex.axis = 6, labels = Filts[c(1,3,4)], at = seq(3))
 
-plot(as.matrix(Impute5.BEAGLE_Phase.Invs.AFR[,c(3,6,7)]), axis.col = NULL,
+plot(as.matrix(Impute5.BEAGLE_Phase.Invs.AFR[,c(1,3,4)]), axis.col = NULL,
      axis.row = NULL, ylab = "", xlab = "", col = cols,
      breaks = round(c(0, seq(100)/100), 2), main = "IMPUTE5", digits = 4, text.cell = list(cex=5.4), 
      na.col = "gray", key = NULL, cex.main = 8)
-axis(1, line = 5, tick = F, cex.axis = 6, labels = Filters[c(1,4,5)], at = seq(3))
+axis(1, line = 5, tick = F, cex.axis = 6, labels = Filts[c(1,3,4)], at = seq(3))
 title(xlab = "Filter", line = 15, cex.lab = 8)
 
-plot(as.matrix(Minimac4.BEAGLE_Phase.Invs.AFR[,c(3,6,7)]), axis.col = NULL,
+plot(as.matrix(Minimac4.BEAGLE_Phase.Invs.AFR[,c(1,3,4)]), axis.col = NULL,
      axis.row = NULL, ylab = "", xlab = "", col = cols,
      breaks = round(c(0, seq(100)/100), 2), main = "Minimac4", digits = 4, text.cell = list(cex=5.4),
      na.col = "gray", key = NULL, cex.main = 8)
-axis(1, line = 5, tick = F, cex.axis = 6, labels = Filters[c(1,4,5)], at = seq(3))
+axis(1, line = 5, tick = F, cex.axis = 6, labels = Filts[c(1,3,4)], at = seq(3))
 
 par(mar = c(20,15,10,15))
 plot(as.matrix(ScoreInvHap.Invs.AFR[,1]), axis.col = NULL,
@@ -3050,18 +2979,18 @@ ScoreInvHap.Invs.EAS <- sel_df(Imputation.Info, imp_method = "ScoreInvHap", pop 
 BEAGLE.BEAGLE_Phase.Invs.EAS <- BEAGLE.BEAGLE_Phase.Invs.EAS[match(Inv.Data.Plot.EAS$INV, BEAGLE.BEAGLE_Phase.Invs.EAS$INV),]
 rownames(BEAGLE.BEAGLE_Phase.Invs.EAS) <- c()
 BEAGLE.BEAGLE_Phase.Invs.EAS <- column_to_rownames(BEAGLE.BEAGLE_Phase.Invs.EAS, var = "INV")
-colnames(BEAGLE.BEAGLE_Phase.Invs.EAS) <- c("0.00", "0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(BEAGLE.BEAGLE_Phase.Invs.EAS) <- c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 BEAGLE.BEAGLE_Phase.Invs.EAS <- BEAGLE.BEAGLE_Phase.Invs.EAS %>% mutate_at(
-  vars(`0.00`,`0.30`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
+  vars(`0.00`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
 )
 BEAGLE.BEAGLE_Phase.Invs.EAS <- roundAll(BEAGLE.BEAGLE_Phase.Invs.EAS, 2)
 
 Impute2.BEAGLE_Phase.Invs.EAS <- Impute2.BEAGLE_Phase.Invs.EAS[match(Inv.Data.Plot.EAS$INV, Impute2.BEAGLE_Phase.Invs.EAS$INV),]
 rownames(Impute2.BEAGLE_Phase.Invs.EAS) <- c()
 Impute2.BEAGLE_Phase.Invs.EAS <- column_to_rownames(Impute2.BEAGLE_Phase.Invs.EAS, var = "INV")
-colnames(Impute2.BEAGLE_Phase.Invs.EAS) <- c("0.00", "0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Impute2.BEAGLE_Phase.Invs.EAS) <- c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 Impute2.BEAGLE_Phase.Invs.EAS <- Impute2.BEAGLE_Phase.Invs.EAS %>% mutate_at(
-  vars(`0.00`,`0.30`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
+  vars(`0.00`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
 )
 Impute2.BEAGLE_Phase.Invs.EAS <- roundAll(Impute2.BEAGLE_Phase.Invs.EAS, 2)
 
@@ -3069,9 +2998,9 @@ Impute2.BEAGLE_Phase.Invs.EAS <- roundAll(Impute2.BEAGLE_Phase.Invs.EAS, 2)
 Impute5.BEAGLE_Phase.Invs.EAS <- Impute5.BEAGLE_Phase.Invs.EAS[match(Inv.Data.Plot.EAS$INV, Impute5.BEAGLE_Phase.Invs.EAS$INV),]
 rownames(Impute5.BEAGLE_Phase.Invs.EAS) <- c()
 Impute5.BEAGLE_Phase.Invs.EAS <- column_to_rownames(Impute5.BEAGLE_Phase.Invs.EAS, var = "INV")
-colnames(Impute5.BEAGLE_Phase.Invs.EAS) <- c("0.00", "0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Impute5.BEAGLE_Phase.Invs.EAS) <- c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 Impute5.BEAGLE_Phase.Invs.EAS <- Impute5.BEAGLE_Phase.Invs.EAS %>% mutate_at(
-  vars(`0.00`,`0.30`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
+  vars(`0.00`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
 )
 Impute5.BEAGLE_Phase.Invs.EAS <- roundAll(Impute5.BEAGLE_Phase.Invs.EAS, 2)
 
@@ -3079,9 +3008,9 @@ Impute5.BEAGLE_Phase.Invs.EAS <- roundAll(Impute5.BEAGLE_Phase.Invs.EAS, 2)
 Minimac4.BEAGLE_Phase.Invs.EAS <- Minimac4.BEAGLE_Phase.Invs.EAS[match(Inv.Data.Plot.EAS$INV, Minimac4.BEAGLE_Phase.Invs.EAS$INV),]
 rownames(Minimac4.BEAGLE_Phase.Invs.EAS) <- c()
 Minimac4.BEAGLE_Phase.Invs.EAS <- column_to_rownames(Minimac4.BEAGLE_Phase.Invs.EAS, var = "INV")
-colnames(Minimac4.BEAGLE_Phase.Invs.EAS) <- c("0.00", "0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Minimac4.BEAGLE_Phase.Invs.EAS) <- c("0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 Minimac4.BEAGLE_Phase.Invs.EAS <- Minimac4.BEAGLE_Phase.Invs.EAS %>% mutate_at(
-  vars(`0.00`,`0.30`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
+  vars(`0.00`,`0.50`, `0.70`, `0.80`, `0.90`, `0.95`), funs(as.character)
 )
 Minimac4.BEAGLE_Phase.Invs.EAS <- roundAll(Minimac4.BEAGLE_Phase.Invs.EAS, 2)
 
@@ -3104,32 +3033,32 @@ par(mar = c(20,50,10,1), bg = "#F6F9FF")
 #par(mfrow = c(1,4))
 
 layout( matrix(c(rep(1,38), rep(2,30), rep(3,30), rep(4,30), rep(5, 23), rep(6, 23)), nrow = 1))
-plot(as.matrix(BEAGLE.BEAGLE_Phase.Invs.EAS[,c(3,6,7)]), xaxt = "n", axis.col = NULL, yaxt = "n",
+plot(as.matrix(BEAGLE.BEAGLE_Phase.Invs.EAS[,c(1,3,4)]), xaxt = "n", axis.col = NULL, yaxt = "n",
      axis.row = list(side = 2, las = 1, cex.axis = 7, line = 8, tick = F), ylab = "", xlab = "", col = cols,
      breaks = round(c(0, seq(100)/100), 2), main = "BEAGLE", digits = 4, text.cell = list(cex=5.4), 
      na.col = "gray", key = NULL, cex.main = 8)
-axis(1, line = 5, tick = F, cex.axis = 6, labels = Filters[c(1,4,5)], at = seq(3))
+axis(1, line = 5, tick = F, cex.axis = 6, labels = Filts[c(1,3,4)], at = seq(3))
 #axis(2, line = 10, tick = F, cex.axis = 7, labels(rownames(BeMtxEAS)), at = seq(length(rownames(BeMtxEAS))))
 
 par(mar = c(20,15,10,1))
-plot(as.matrix(Impute2.BEAGLE_Phase.Invs.EAS[,c(3,6,7)]), axis.col = NULL,
+plot(as.matrix(Impute2.BEAGLE_Phase.Invs.EAS[,c(1,3,4)]), axis.col = NULL,
      axis.row = NULL, ylab = "", xlab = "", col = cols,
      breaks = round(c(0, seq(100)/100), 2), main = "IMPUTE2", digits = 4, text.cell = list(cex=5.4), 
      na.col = "gray", key = NULL, cex.lab = 10, cex.main = 8)
-axis(1, line = 5, tick = F, cex.axis = 6, labels = Filters[c(1,4,5)], at = seq(3))
+axis(1, line = 5, tick = F, cex.axis = 6, labels = Filts[c(1,3,4)], at = seq(3))
 
-plot(as.matrix(Impute5.BEAGLE_Phase.Invs.EAS[,c(3,6,7)]), axis.col = NULL,
+plot(as.matrix(Impute5.BEAGLE_Phase.Invs.EAS[,c(1,3,4)]), axis.col = NULL,
      axis.row = NULL, ylab = "", xlab = "", col = cols,
      breaks = round(c(0, seq(100)/100), 2), main = "IMPUTE5", digits = 4, text.cell = list(cex=5.4), 
      na.col = "gray", key = NULL, cex.main = 8)
-axis(1, line = 5, tick = F, cex.axis = 6, labels = Filters[c(1,4,5)], at = seq(3))
+axis(1, line = 5, tick = F, cex.axis = 6, labels = Filts[c(1,3,4)], at = seq(3))
 title(xlab = "Filter", line = 15, cex.lab = 8)
 
-plot(as.matrix(Minimac4.BEAGLE_Phase.Invs.EAS[,c(3,6,7)]), axis.col = NULL,
+plot(as.matrix(Minimac4.BEAGLE_Phase.Invs.EAS[,c(1,3,4)]), axis.col = NULL,
      axis.row = NULL, ylab = "", xlab = "", col = cols,
      breaks = round(c(0, seq(100)/100), 2), main = "Minimac4", digits = 4, text.cell = list(cex=5.4),
      na.col = "gray", key = NULL, cex.main = 8)
-axis(1, line = 5, tick = F, cex.axis = 6, labels = Filters[c(1,4,5)], at = seq(3))
+axis(1, line = 5, tick = F, cex.axis = 6, labels = Filts[c(1,3,4)], at = seq(3))
 
 par(mar = c(20,15,10,15))
 plot(as.matrix(ScoreInvHap.Invs.EAS[,1]), axis.col = NULL,
@@ -3226,7 +3155,6 @@ rsIHS <- EAS_Info$V1[EAS_Info$V2 == "Polymorphic"]
 
 Beagle.Invs.EUR.Filt <- BEAGLE.BEAGLE_Phase.Invs.EUR %>% rownames_to_column(var = "INV") %>%
           mutate(`0.00` = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.00"), `0.00`, NA),
-                 `0.30` = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.30"), `0.30`, NA),
                  `0.50` = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.50"), `0.50`, NA),
                  `0.70` = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.70"), `0.70`, NA),
                  `0.80` = ifelse(INV %in%  check_loss("Beagle", "EUR", filter = "0.80"), `0.80`, NA),
@@ -3235,7 +3163,6 @@ Beagle.Invs.EUR.Filt <- BEAGLE.BEAGLE_Phase.Invs.EUR %>% rownames_to_column(var 
   column_to_rownames(var = "INV")
 Impute2.Invs.EUR.Filt <- Impute2.BEAGLE_Phase.Invs.EUR %>% rownames_to_column(var = "INV") %>%
           mutate(`0.00` = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.00"), `0.00`, NA),
-                 `0.30` = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.30"), `0.30`, NA),
                  `0.50` = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.50"), `0.50`, NA),
                  `0.70` = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.70"), `0.70`, NA),
                  `0.80` = ifelse(INV %in%  check_loss("Impute2", "EUR", filter = "0.80"), `0.80`, NA),
@@ -3244,7 +3171,6 @@ Impute2.Invs.EUR.Filt <- Impute2.BEAGLE_Phase.Invs.EUR %>% rownames_to_column(va
   column_to_rownames(var = "INV")
 Impute5.Invs.EUR.Filt <- Impute5.BEAGLE_Phase.Invs.EUR %>% rownames_to_column(var = "INV") %>%
           mutate(`0.00` = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.00"), `0.00`, NA),
-                 `0.30` = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.30"), `0.30`, NA),
                  `0.50` = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.50"), `0.50`, NA),
                  `0.70` = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.70"), `0.70`, NA),
                  `0.80` = ifelse(INV %in%  check_loss("Impute5", "EUR", filter = "0.80"), `0.80`, NA),
@@ -3253,7 +3179,6 @@ Impute5.Invs.EUR.Filt <- Impute5.BEAGLE_Phase.Invs.EUR %>% rownames_to_column(va
   column_to_rownames(var = "INV")
 Minimac4.Invs.EUR.Filt <- Minimac4.BEAGLE_Phase.Invs.EUR %>% rownames_to_column(var = "INV") %>%
           mutate(`0.00` = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.00"), `0.00`, NA),
-                 `0.30` = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.30"), `0.30`, NA),
                  `0.50` = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.50"), `0.50`, NA),
                  `0.70` = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.70"), `0.70`, NA),
                  `0.80` = ifelse(INV %in%  check_loss("Minimac4", "EUR", filter = "0.80"), `0.80`, NA),
@@ -3264,7 +3189,6 @@ Minimac4.Invs.EUR.Filt <- Minimac4.BEAGLE_Phase.Invs.EUR %>% rownames_to_column(
 
 Beagle.Invs.AFR.Filt <- BEAGLE.BEAGLE_Phase.Invs.AFR %>% rownames_to_column(var = "INV") %>%
           mutate(`0.00` = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.00"), `0.00`, NA),
-                 `0.30` = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.30"), `0.30`, NA),
                  `0.50` = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.50"), `0.50`, NA),
                  `0.70` = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.70"), `0.70`, NA),
                  `0.80` = ifelse(INV %in%  check_loss("Beagle", "AFR", filter = "0.80"), `0.80`, NA),
@@ -3273,7 +3197,6 @@ Beagle.Invs.AFR.Filt <- BEAGLE.BEAGLE_Phase.Invs.AFR %>% rownames_to_column(var 
   column_to_rownames(var = "INV")
 Impute2.Invs.AFR.Filt <- Impute2.BEAGLE_Phase.Invs.AFR %>% rownames_to_column(var = "INV") %>%
           mutate(`0.00` = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.00"), `0.00`, NA),
-                 `0.30` = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.30"), `0.30`, NA),
                  `0.50` = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.50"), `0.50`, NA),
                  `0.70` = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.70"), `0.70`, NA),
                  `0.80` = ifelse(INV %in%  check_loss("Impute2", "AFR", filter = "0.80"), `0.80`, NA),
@@ -3282,7 +3205,6 @@ Impute2.Invs.AFR.Filt <- Impute2.BEAGLE_Phase.Invs.AFR %>% rownames_to_column(va
   column_to_rownames(var = "INV")
 Impute5.Invs.AFR.Filt <- Impute5.BEAGLE_Phase.Invs.AFR %>% rownames_to_column(var = "INV") %>%
           mutate(`0.00` = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.00"), `0.00`, NA),
-                 `0.30` = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.30"), `0.30`, NA),
                  `0.50` = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.50"), `0.50`, NA),
                  `0.70` = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.70"), `0.70`, NA),
                  `0.80` = ifelse(INV %in%  check_loss("Impute5", "AFR", filter = "0.80"), `0.80`, NA),
@@ -3291,7 +3213,6 @@ Impute5.Invs.AFR.Filt <- Impute5.BEAGLE_Phase.Invs.AFR %>% rownames_to_column(va
   column_to_rownames(var = "INV")
 Minimac4.Invs.AFR.Filt <- Minimac4.BEAGLE_Phase.Invs.AFR %>% rownames_to_column(var = "INV") %>%
           mutate(`0.00` = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.00"), `0.00`, NA),
-                 `0.30` = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.30"), `0.30`, NA),
                  `0.50` = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.50"), `0.50`, NA),
                  `0.70` = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.70"), `0.70`, NA),
                  `0.80` = ifelse(INV %in%  check_loss("Minimac4", "AFR", filter = "0.80"), `0.80`, NA),
@@ -3302,7 +3223,6 @@ Minimac4.Invs.AFR.Filt <- Minimac4.BEAGLE_Phase.Invs.AFR %>% rownames_to_column(
 
 Beagle.Invs.EAS.Filt <- BEAGLE.BEAGLE_Phase.Invs.EAS %>% rownames_to_column(var = "INV") %>%
           mutate(`0.00` = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.00"), `0.00`, NA),
-                 `0.30` = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.30"), `0.30`, NA),
                  `0.50` = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.50"), `0.50`, NA),
                  `0.70` = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.70"), `0.70`, NA),
                  `0.80` = ifelse(INV %in%  check_loss("Beagle", "EAS", filter = "0.80"), `0.80`, NA),
@@ -3311,7 +3231,6 @@ Beagle.Invs.EAS.Filt <- BEAGLE.BEAGLE_Phase.Invs.EAS %>% rownames_to_column(var 
   column_to_rownames(var = "INV")
 Impute2.Invs.EAS.Filt <- Impute2.BEAGLE_Phase.Invs.EAS %>% rownames_to_column(var = "INV") %>%
           mutate(`0.00` = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.00"), `0.00`, NA),
-                 `0.30` = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.30"), `0.30`, NA),
                  `0.50` = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.50"), `0.50`, NA),
                  `0.70` = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.70"), `0.70`, NA),
                  `0.80` = ifelse(INV %in%  check_loss("Impute2", "EAS", filter = "0.80"), `0.80`, NA),
@@ -3320,7 +3239,6 @@ Impute2.Invs.EAS.Filt <- Impute2.BEAGLE_Phase.Invs.EAS %>% rownames_to_column(va
   column_to_rownames(var = "INV")
 Impute5.Invs.EAS.Filt <- Impute5.BEAGLE_Phase.Invs.EAS %>% rownames_to_column(var = "INV") %>%
           mutate(`0.00` = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.00"), `0.00`, NA),
-                 `0.30` = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.30"), `0.30`, NA),
                  `0.50` = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.50"), `0.50`, NA),
                  `0.70` = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.70"), `0.70`, NA),
                  `0.80` = ifelse(INV %in%  check_loss("Impute5", "EAS", filter = "0.80"), `0.80`, NA),
@@ -3329,7 +3247,6 @@ Impute5.Invs.EAS.Filt <- Impute5.BEAGLE_Phase.Invs.EAS %>% rownames_to_column(va
   column_to_rownames(var = "INV")
 Minimac4.Invs.EAS.Filt <- Minimac4.BEAGLE_Phase.Invs.EAS %>% rownames_to_column(var = "INV") %>%
           mutate(`0.00` = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.00"), `0.00`, NA),
-                 `0.30` = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.30"), `0.30`, NA),
                  `0.50` = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.50"), `0.50`, NA),
                  `0.70` = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.70"), `0.70`, NA),
                  `0.80` = ifelse(INV %in%  check_loss("Minimac4", "EAS", filter = "0.80"), `0.80`, NA),
@@ -4165,11 +4082,11 @@ dev.off()
 
 ```{r}
 Minimac4.violin.EUR <- sel_df(Imputation.Info, imp_method = "Minimac4", condition = "BEAGLE_Phase", pop = "EUR", filter = "Mean")
-colnames(Minimac4.violin.EUR) <- c("INV", "0.00", "0.30", "0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Minimac4.violin.EUR) <- c("INV", "0.00",  "0.50", "0.70", "0.80", "0.90", "0.95")
 Minimac4.violin.AFR <- sel_df(Imputation.Info, imp_method = "Minimac4", condition = "BEAGLE_Phase", pop = "AFR", filter = "Mean")
-colnames(Minimac4.violin.AFR) <- c("INV","0.00", "0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Minimac4.violin.AFR) <- c("INV","0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 Minimac4.violin.EAS <- sel_df(Imputation.Info, imp_method = "Minimac4", condition = "BEAGLE_Phase", pop = "EAS", filter = "Mean")
-colnames(Minimac4.violin.EAS) <- c("INV","0.00", "0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Minimac4.violin.EAS) <- c("INV","0.00", "0.50", "0.70", "0.80", "0.90", "0.95")
 ```
 
 ```{r}
@@ -4247,11 +4164,11 @@ ggbetweenstats(data = Minimac4.violin.EAS.full, x = Group, y = `0.90`, type = "p
 
 ```{r}
 Impute2.violin.EUR <- sel_df(Imputation.Info, imp_method = "Impute2", condition = "BEAGLE_Phase", pop = "EUR", filter = "Mean")
-colnames(Impute2.violin.EUR) <- c("INV","0.00","0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Impute2.violin.EUR) <- c("INV","0.00","0.50", "0.70", "0.80", "0.90", "0.95")
 Impute2.violin.AFR <- sel_df(Imputation.Info, imp_method = "Impute2", condition = "BEAGLE_Phase", pop = "AFR", filter = "Mean")
-colnames(Impute2.violin.AFR) <- c("INV","0.00","0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Impute2.violin.AFR) <- c("INV","0.00","0.50", "0.70", "0.80", "0.90", "0.95")
 Impute2.violin.EAS <- sel_df(Imputation.Info, imp_method = "Impute2", condition = "BEAGLE_Phase", pop = "EAS", filter = "Mean")
-colnames(Impute2.violin.EAS) <- c("INV","0.00","0.30","0.50", "0.70", "0.80", "0.90", "0.95")
+colnames(Impute2.violin.EAS) <- c("INV","0.00","0.50", "0.70", "0.80", "0.90", "0.95")
 Impute2.violin.joint <- cbind(Impute2.violin.EUR[c(1,7)],Impute2.violin.AFR[7],Impute2.violin.EAS[7])
 colnames(Impute2.violin.joint) <- c("INV","EUR","AFR","EAS")
 Impute2.violin.joint <- melt(Impute2.violin.joint, id.vars = "INV")

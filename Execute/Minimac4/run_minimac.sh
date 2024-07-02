@@ -8,16 +8,16 @@ fi
 
 wd="$(pwd)"
 
-condition="$1"
-vcfs="$2"
-rep="$3"
-inv="$4"
+#condition="$1"
+#vcfs="$2"
+#rep="$3"
+#inv="$4"
 
 ## For testing
-#condition="Standard"
-#vcfs="Standard"
-#rep="Rep_1"
-#inv="HsInv0015"
+condition="Standard"
+vcfs="Standard"
+rep="Rep_6"
+inv="HsInv0015"
 
 
 pops="EUR AFR EAS"
